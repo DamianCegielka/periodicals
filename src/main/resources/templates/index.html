@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <title>Main Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div class="container fluid text-center">
-    <h1> Main Page </h1>
-    <a class="h2" th:href="@{/users}">PERIODICS</a>
+<div class="container-fluid text-center">
+    <h1>Welcome to periodicals page</h1>
+    <a  class="h2" th:href="@{/register}">REGISTER</a>
+    <div></div>
+    <div></div>
+    <a  class="h2" th:href="@{/users}">USERS LIST</a>
+    <div></div>
+    <div></div>
+    <a  class="h2" th:href="@{/publications}">PUBLICATIONS LIST</a>
+    <div></div>
+    <div></div>
+    <a  class="h2" th:href="@{/login}">LOGIN (NOT READY)</a>
+    <div></div>
+    <div></div>
+    <a  class="h2" th:href="@{/users/account}">PERSONAL ACCOUNT ( NOT READY )</a>
+    <div></div>
+    <div></div>
 </div>
 </body>
 </html>
+

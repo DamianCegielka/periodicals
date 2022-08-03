@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Users</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container-fluid text-center">
+  <div><h2>Manage Users</h2></div>
+  <div class="m-1">
+  </div>
+  <div th:if="${message}" class="alert alert-success text-center">
+    [[${message}]]
+
+  </div>
+  <table class="table table-bordered">
+    <thead class="dropdown-menu-dark">
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Active</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="user : ${listUsers}">
+      <tr>
+        <td>[[${user.id}]]</td>
+        <td>[[${user.email}]]</td>
+        <td>[[${user.active}]]</td>
+        <td>
+          <a class="h4 " th:href="@{'/users/edit/'+${user.id}}">Change Active state</a>
+          <!--<a class="h4 " th:href="@{'/users/delete/' + ${user.id}}">Delete</a> -->
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>
