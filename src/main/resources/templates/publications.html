@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>List of Periodicals</title>
-  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <meta charset="UTF-8">
+    <title>List of Periodicals</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div class="container-fluid text-center">
-  <div><h2>List of Periodicals</h2></div>
-  <div class="m-1">
-    <a class="h3 m-2" th:href="@{/publications/new}">Add new Periodical</a>
-  </div>
-
-  <div th:if="${message}" class="alert alert-success text-center">
-    [[${message}]]
-
-  </div>
-  <table class="table table-bordered">
-    <thead class="dropdown-menu-dark">
-    <tr>
-      <th>ID</th>
-      <th>Title</th>
-      <th>Price</th>
-      <th>Topic</th>
-      <th>Settings</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="publication : ${listPublications}">
-      <tr>
-        <td>[[${publication.id}]]</td>
-        <td>[[${publication.title}]]</td>
-        <td>[[${publication.price}]]</td>
-        <td>[[${publication.topic}]]</td>
-        <td>
-          <a class="h4 " th:href="@{'/publications/edit/'+${publication.id}}">Edit</a>
-          <a class="h4 " th:href="@{'/publications/delete/' + ${publication.id}}">Delete</a>
-        </td>
-      </tr>
-    </th:block>
-    </tbody>
-  </table>
+<div class="container-fluid text-center" style="max-width: 1000px; margin: 0 auto;">
+    <div><h2>List of Periodicals</h2></div>
+    <div class="m-1">
+        <a class="btn btn-primary btn-lg" th:href="@{/publications/new}">Add new Periodical</a>
+    </div>
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <table class="table table-bordered">
+        <thead class="dropdown-menu-dark">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Topic</th>
+            <th>Settings</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="publication : ${listPublications}">
+            <tr>
+                <td>[[${publication.id}]]</td>
+                <td>[[${publication.title}]]</td>
+                <td>[[${publication.price}]]</td>
+                <td>[[${publication.topic}]]</td>
+                <td>
+                    <a class="btn btn-primary m-2 text-center "
+                       th:href="@{'/publications/edit/'+${publication.id}}">Edit</a>
+                    <a class="btn btn-danger m-2 text-center "
+                       th:href="@{'/publications/delete/' + ${publication.id}}">Delete</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
 
 </div>
 </body>
