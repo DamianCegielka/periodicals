@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +22,13 @@ public class User {
     private String repeatPassword;
     @Column
     private Boolean active;
+
+    @ManyToOne
+    @JoinColumn(name = "roleId")
+    private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Collection<Subscription> subscriptions;
 
     public User(String email, String password, Boolean active) {
         this.email = email;

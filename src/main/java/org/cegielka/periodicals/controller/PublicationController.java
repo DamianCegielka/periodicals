@@ -25,11 +25,11 @@ public class PublicationController {
         this.publicationService = publicationService;
     }
 
-    @GetMapping(" ")
+    @GetMapping("/edit")
     public String showUserList(Model model) {
         List<Publication> listPublications = publicationService.listAll();
         model.addAttribute("listPublications", listPublications);
-        return "publications";
+        return "publications_edit";
     }
 
     @GetMapping("/new")
@@ -43,7 +43,7 @@ public class PublicationController {
     public String saveUser(PublicationRegistrationRequest publication, RedirectAttributes redirectAttributes) {
         publicationService.register(publication);
         redirectAttributes.addFlashAttribute("message", "The publication has been saved successfully.");
-        return "redirect:/publications";
+        return "redirect:/publications/edit";
     }
 
     @GetMapping("/edit/{id}")
@@ -55,7 +55,7 @@ public class PublicationController {
             return "publication_form";
         } catch (UserNotFoundByIdException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/publications";
+            return "redirect:/publications/edit";
         }
     }
 
@@ -66,6 +66,6 @@ public class PublicationController {
         } catch (UserNotFoundByIdException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
         }
-        return "redirect:/publications";
+        return "redirect:/publications/edit";
     }
 }
