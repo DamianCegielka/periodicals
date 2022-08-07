@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Periodicals</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container-fluid text-center" style="max-width: 1000px; margin: 0 auto;">
+    <div><h2>List of Periodicals</h2></div>
+    <div class="m-1">
+    </div>
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div th:if="${message2}" class="alert alert-danger text-center">
+        [[${message2}]]
+    </div>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">PERIODICALS PAGE</a>
+        <form class="form-inline">
+            <input class="form-control m-2" type="search" placeholder="Search By Title" aria-label="Search By Title">
+            <button class="btn btn-secondary my-2 m-2" type="submit">Search By Title</button>
+        </form>
+    </nav>
+    <table class="table table-bordered">
+        <thead class="dropdown-menu-dark">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Topic</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="publication : ${listPublications}">
+            <tr>
+                <td>[[${publication.id}]]</td>
+                <td>[[${publication.title}]]</td>
+                <td>[[${publication.price}]]</td>
+                <td>[[${publication.topic}]]</td>
+                <td>
+                    <a class="btn btn-success m-2 text-center "
+                       th:href="@{'/publications/subscription/'+${publication.id}}">SUBSCRIBE</a>
+                    <a class="btn btn-danger m-2 text-center "
+                       th:href="@{'/publications/subscription/delete'+${publication.id}}">UNSUBSCRIBE</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
