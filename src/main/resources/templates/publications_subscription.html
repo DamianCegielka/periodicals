@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div class="container-fluid text-center" style="max-width: 1000px; margin: 0 auto;">
+<li class="container-fluid text-center" style="max-width: 1000px; margin: 0 auto;">
     <div><h2>List of Periodicals</h2></div>
     <div class="m-1">
     </div>
@@ -18,9 +18,11 @@
     </div>
     <nav class="navbar navbar-light bg-light justify-content-between">
         <a class="navbar-brand">PERIODICALS PAGE</a>
-        <form class="form-inline">
-            <input class="form-control m-2" type="search" placeholder="Search By Title" aria-label="Search By Title">
+        <form class="form-inline" th:action="@{'/publications/subscription'}">
+            <input class="form-control m-2" type="search" placeholder="Search By Title" aria-label="Search By Title"
+                   name="keyword" required>
             <button class="btn btn-secondary my-2 m-2" type="submit">Search By Title</button>
+            <a href="http://localhost:8080/publications/subscription" class="btn btn-secondary my-2 m-2" type="submit">Clear</a>
         </form>
     </nav>
     <table class="table table-bordered">
@@ -44,13 +46,31 @@
                     <a class="btn btn-success m-2 text-center "
                        th:href="@{'/publications/subscription/'+${publication.id}}">SUBSCRIBE</a>
                     <a class="btn btn-danger m-2 text-center "
-                       th:href="@{'/publications/subscription/delete'+${publication.id}}">UNSUBSCRIBE</a>
+                       th:href="@{'/publications/subscription/delete/'+${publication.id}}">UNSUBSCRIBE</a>
                 </td>
             </tr>
         </th:block>
         </tbody>
     </table>
-
-</div>
+    <div th:if="${totalPages > 1}">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link"
+                       th:if="${currentPage > 1}"
+                       th:href="@{'/publications/subscription/page/' + ${currentPage -1}}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{'/publications/subscription/page/' + ${i}}">[[${i}]]</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                       th:if="${currentPage < totalPages}"
+                       th:href="@{'/publications/subscription/page/' + ${currentPage +1}}">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </body>
 </html>

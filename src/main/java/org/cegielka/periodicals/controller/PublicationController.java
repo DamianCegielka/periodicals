@@ -8,15 +8,14 @@ import org.cegielka.periodicals.service.RegistrationService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.impl.PublicationServiceImpl;
 import org.cegielka.periodicals.service.impl.RegistrationServiceImpl;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -33,10 +32,13 @@ public class PublicationController {
     }
 
     @GetMapping("/subscription")
-    public String showPublicationListToSubscription(Model model) {
-        List<Publication> listPublications = publicationService.listAll();
+    public String showPublicationListToSubscription(Model model,@Param("keyword") String keyword) {
+        //List<Publication> listPublications = publicationService.listAll();
+        /*List<Publication> listPublications=publicationService.searchPublicationByTitle(keyword);
         model.addAttribute("listPublications", listPublications);
         return "publications_subscription";
+         */
+        return findPaginated(1,model,keyword);
     }
 
     @GetMapping("/subscription/{id}")
@@ -48,9 +50,11 @@ public class PublicationController {
             subscriptionRequest.setDate(LocalDateTime.now());
 
             if (publicationService.addSubscription(subscriptionRequest)) {
-                redirectAttributes.addFlashAttribute("message", "The subscription has been added successfully.");
+                redirectAttributes.addFlashAttribute("message",
+                        "The subscription has been added successfully.");
             } else {
-                redirectAttributes.addFlashAttribute("message2", "The subscription not added.Probably you subscribe this position");
+                redirectAttributes.addFlashAttribute("message2",
+                        "The subscription not added.You subscribe this position or your account is not active");
             }
         } catch (UserNotFoundByIdException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
@@ -58,12 +62,42 @@ public class PublicationController {
         return "redirect:/publications/subscription";
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<Publication>> searchPublication(@RequestParam("query") String query){
-        return ResponseEntity.ok(publicationService.searchPublicationByTitle(query));
+    @GetMapping("/subscription/delete/{id}")
+    public String deleteSubscription(@PathVariable("id") Long id, Long idUserFromSession, RedirectAttributes redirectAttributes) {
+        try {
+            SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
+            subscriptionRequest.setPublicationId(publicationService.get(id));
+            subscriptionRequest.setUserId(registrationService.get(1L));//to change information about users from session
+
+            if (publicationService.deleteSubscription(subscriptionRequest)) {
+                redirectAttributes.addFlashAttribute("message", "The subscription has been deleted successfully.");
+            } else {
+                redirectAttributes.addFlashAttribute("message2", "The subscription not deleted.Probably you don't subscribe this position");
+            }
+        } catch (UserNotFoundByIdException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+        return "redirect:/publications/subscription";
     }
 
+    @GetMapping("/subscription/page/{pageNo}")
+        String findPaginated(@PathVariable("pageNo") int pageNo,Model model,@Param("keyword") String keyword){
+        int pageSize=5;
 
+        Page<Publication> page = publicationService.findPaginatedWithSearching(pageNo, pageSize, keyword);
+        List<Publication> listPublications=page.getContent();
+        model.addAttribute("currentPage",pageNo);
+        model.addAttribute("totalPages",page.getTotalPages());
+        model.addAttribute("totalItems",page.getTotalElements());
+        model.addAttribute("listPublications", listPublications);
+
+        return "publications_subscription";
+    }
+
+    @GetMapping("/subscription/search")
+    public List<Publication> searchPublication(@Param("keyword") String keyword){
+        return publicationService.searchPublicationByTitle(keyword);
+    }
 
     @GetMapping("/new")
     public String showNewForm(Model model) {

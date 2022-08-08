@@ -10,4 +10,6 @@ public class SubscriptionRequestMapper {
    public static Subscription map(SubscriptionRequest request){
        return new Subscription(request.getUserId(),request.getPublicationId(),request.getDate());
     }
+
+
 }

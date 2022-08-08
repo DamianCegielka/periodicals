@@ -8,11 +8,13 @@ import org.cegielka.periodicals.entity.Subscription;
 import org.cegielka.periodicals.repository.PublicationRepository;
 import org.cegielka.periodicals.repository.SubscriptionRepository;
 import org.cegielka.periodicals.service.PublicationService;
-import org.cegielka.periodicals.service.exception.SubscriptionNotAddException;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.mapper.PublicationRegistrationRequestMapper;
 import org.cegielka.periodicals.service.mapper.SubscriptionRequestMapper;
 import org.cegielka.periodicals.service.validator.SubscriptionValidator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,10 +65,11 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public boolean addSubscription(SubscriptionRequest request) {
-        if (subscriptionValidator.isRepeatedInDatabase(request)) {
+        Subscription subscription = SubscriptionRequestMapper.map(request);
+        if (subscriptionValidator.isInDatabase(request)
+                || (!subscriptionValidator.isActiveUser(subscription))) {
             return false;
         } else {
-            Subscription subscription = SubscriptionRequestMapper.map(request);
             subscriptionRepository.save(subscription);
             return true;
         }
@@ -74,7 +77,38 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public List<Publication> searchPublicationByTitle(String query) {
-        List<Publication> publications= publicationRepository.searchAllPublicationByTitle(query);
-        return publications;
+        if (query != null) {
+            return publicationRepository.searchAllPublicationByTitle(query);
+        } else {
+            return (List<Publication>) publicationRepository.findAll();
+        }
     }
+
+    @Override
+    public boolean deleteSubscription(SubscriptionRequest request) {
+
+        if (subscriptionValidator.isSubscriptionInDatabase(request)) {
+            Subscription subscription = subscriptionRepository.findSubscriptionsByPublicationAndUser
+                    (request.getPublicationId(), request.getUserId()).get();
+            subscriptionRepository.delete(subscription);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public Page<Publication> findPaginatedWithSearching(int pageNo, int pageSize, String query) {
+
+        if(query!=null){
+            Pageable pageable= PageRequest.of(pageNo-1,pageSize);
+            return publicationRepository.findByTitleContaining(query,pageable);
+        }
+        else{
+            Pageable pageable= PageRequest.of(pageNo-1,pageSize);
+            return publicationRepository.findAll(pageable);
+        }
+    }
+
+
 }
