@@ -32,13 +32,15 @@ public class PublicationController {
     }
 
     @GetMapping("/subscription")
-    public String showPublicationListToSubscription(Model model,@Param("keyword") String keyword) {
+    public String showPublicationListToSubscription(Model model, @Param("keyword") String keyword,
+                                                    @Param("sortField") String sortField,
+                                                    @Param("sortDir") String sortDir) {
         //List<Publication> listPublications = publicationService.listAll();
         /*List<Publication> listPublications=publicationService.searchPublicationByTitle(keyword);
         model.addAttribute("listPublications", listPublications);
         return "publications_subscription";
          */
-        return findPaginated(1,model,keyword);
+        return findPaginated(1, model, keyword, "id", "asc");
     }
 
     @GetMapping("/subscription/{id}")
@@ -81,21 +83,27 @@ public class PublicationController {
     }
 
     @GetMapping("/subscription/page/{pageNo}")
-        String findPaginated(@PathVariable("pageNo") int pageNo,Model model,@Param("keyword") String keyword){
-        int pageSize=5;
+    String findPaginated(@PathVariable("pageNo") int pageNo, Model model, @Param("keyword") String keyword,
+                         @Param("sortField") String sortField,
+                         @Param("sortDir") String sortDir) {
+        int pageSize = 5;
 
-        Page<Publication> page = publicationService.findPaginatedWithSearching(pageNo, pageSize, keyword);
-        List<Publication> listPublications=page.getContent();
-        model.addAttribute("currentPage",pageNo);
-        model.addAttribute("totalPages",page.getTotalPages());
-        model.addAttribute("totalItems",page.getTotalElements());
+        Page<Publication> page = publicationService.findPaginatedWithSearching(pageNo, pageSize, keyword, sortField, sortDir);
+
+        List<Publication> listPublications = page.getContent();
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("listPublications", listPublications);
 
         return "publications_subscription";
     }
 
     @GetMapping("/subscription/search")
-    public List<Publication> searchPublication(@Param("keyword") String keyword){
+    public List<Publication> searchPublication(@Param("keyword") String keyword) {
         return publicationService.searchPublicationByTitle(keyword);
     }
 

@@ -26,12 +26,19 @@
         </form>
     </nav>
     <table class="table table-bordered">
-        <thead class="dropdown-menu-dark">
+        <thead class="dropdown-menu-dark" >
         <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Topic</th>
+            <th><a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=id'+ '&sortDir=' + ${reverseSortDir}}">
+                ID</a></th>
+            <th>
+                <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=title'+ '&sortDir=' + ${reverseSortDir}}">
+                    Title</a></th>
+            <th>
+                <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=price'+ '&sortDir=' + ${reverseSortDir}}">
+                    Price</a></th>
+            <th>
+                <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=topic'+ '&sortDir=' + ${reverseSortDir}}">
+                    Topic</a></th>
             <th></th>
         </tr>
         </thead>
@@ -58,16 +65,16 @@
                 <li class="page-item">
                     <a class="page-link"
                        th:if="${currentPage > 1}"
-                       th:href="@{'/publications/subscription/page/' + ${currentPage -1}}">Previous</a>
+                       th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">Previous</a>
                 </li>
                 <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
                     <a class="page-link"
-                       th:href="@{'/publications/subscription/page/' + ${i}}">[[${i}]]</a>
+                       th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a>
                 </li>
                 <li class="page-item">
                     <a class="page-link"
                        th:if="${currentPage < totalPages}"
-                       th:href="@{'/publications/subscription/page/' + ${currentPage +1}}">Next</a>
+                       th:href="@{'/publications/subscription/page/'+${currentPage+1} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">Next</a>
                 </li>
             </ul>
         </nav>

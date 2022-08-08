@@ -23,7 +23,11 @@ public interface PublicationService {
 
     boolean deleteSubscription(SubscriptionRequest subscriptionRequest);
 
-    Page<Publication> findPaginatedWithSearching(int pageNo, int pageSize, String query);
+    Page<Publication> findPaginatedWithSearching(int pageNo,
+                                                 int pageSize,
+                                                 String query,
+                                                 String sortField,
+                                                 String sortDirection);
 
 
 }
