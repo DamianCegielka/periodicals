@@ -45,5 +45,9 @@ public class SubscriptionValidator {
         return subscription.isPresent();
     }
 
+    public boolean isUserHaveFoundsForSubscription(SubscriptionRequest request) {
+        return (request.getUserId().getAccount()>=request.getPublicationId().getPrice());
+    }
+
 
 }

@@ -4,11 +4,15 @@ import lombok.extern.log4j.Log4j2;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
 import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.repository.UserRepository;
-import org.cegielka.periodicals.service.RegistrationService;
+import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.mapper.UserRegistrationRequestMapper;
-import org.cegielka.periodicals.service.validator.PasswordEncoder;
+import org.cegielka.periodicals.service.validator.PasswordValidator;
 import org.cegielka.periodicals.service.validator.UserRegistrationValidator;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,20 +21,20 @@ import java.util.Optional;
 
 @Log4j2
 @Service
-public class RegistrationServiceImpl implements RegistrationService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private UserRegistrationRequestMapper userRegistrationRequestMapper;
-    private PasswordEncoder passwordEncoder;
+    private PasswordValidator passwordValidator;
     private UserRegistrationValidator userRegistrationValidator;
 
-    public RegistrationServiceImpl(UserRepository userRepository,
-                                   UserRegistrationValidator userRegistrationValidator,
-                                   PasswordEncoder passwordEncoder,
-                                   UserRegistrationRequestMapper userRegistrationRequestMapper) {
+    public UserServiceImpl(UserRepository userRepository,
+                           UserRegistrationValidator userRegistrationValidator,
+                           PasswordValidator passwordValidator,
+                           UserRegistrationRequestMapper userRegistrationRequestMapper) {
         this.userRepository = userRepository;
         this.userRegistrationValidator = userRegistrationValidator;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordValidator = passwordValidator;
         this.userRegistrationRequestMapper = userRegistrationRequestMapper;
     }
 
@@ -38,8 +42,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public void register(UserRegistrationRequest request) {
         userRegistrationValidator.validate(request);
-        String password = request.getPassword();
-        String encodePassword = passwordEncoder.encode(password);
+        String encodePassword = passwordValidator.encodePasswordFromRegisterForm(request.getPassword());
         User user = userRegistrationRequestMapper.map(request, encodePassword);
         userRepository.save(user);
     }
@@ -48,7 +51,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     public User login(String email, String password) {
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(() -> new RuntimeException());
-        boolean matched = passwordEncoder.isMatched(password, user.getPassword());
+        boolean matched = passwordValidator.isMatched(password, user.getPassword());
 
         if (!matched) {
             throw new RuntimeException();
@@ -89,6 +92,27 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new UserNotFoundByIdException();
         }
     }
+
+    @Override
+    public Long getIdUserWhichIsLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication.getPrincipal() == "anonymousUser" ) return null;
+        User customUser = (User)authentication.getPrincipal();
+        return customUser.getId();
+    }
+
+    @Override
+    public void calculateFoundsOnAccountUser(Long userId, int price) {
+        int actualFunds=(userRepository.findById(userId).get().getAccount())-price;
+        userRepository.findById(userId).get().setAccount(actualFunds);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+    }
+
 
 }
 

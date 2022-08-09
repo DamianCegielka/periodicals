@@ -4,6 +4,7 @@ import org.cegielka.periodicals.dto.PublicationRegistrationRequest;
 import org.cegielka.periodicals.dto.SubscriptionRequest;
 import org.cegielka.periodicals.entity.Publication;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
@@ -27,7 +28,10 @@ public interface PublicationService {
                                                  int pageSize,
                                                  String query,
                                                  String sortField,
-                                                 String sortDirection);
+                                                 String sortDirection,
+                                                 Long groupValue);
+
+
 
 
 }

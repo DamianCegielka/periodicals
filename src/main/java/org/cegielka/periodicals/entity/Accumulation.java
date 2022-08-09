@@ -3,27 +3,26 @@ package org.cegielka.periodicals.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "accumulations")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Role {
+public class Accumulation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column
-    String role;
+    String accumulation;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
-    private Collection<User> users;
+    @OneToMany(mappedBy = "accumulation", cascade = CascadeType.ALL)
+    private Collection<Publication> publications;
 
-    public Role(String role) {
-        this.role = role;
+    public Accumulation(String accumulation) {
+        this.accumulation = accumulation;
     }
 }

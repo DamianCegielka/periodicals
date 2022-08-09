@@ -6,27 +6,37 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div class="container-fluid text-center">
-    <h1>Welcome to periodicals page</h1>
-    <a class="h2" th:href="@{/users/register}">REGISTER</a>
-    <div></div>
-    <div></div>
-    <a class="h2" th:href="@{/publications/subscription}">PUBLICATIONS TO SUBSCRIPTION</a>
-    <div></div>
-    <div></div>
+<div class="container">
+    <div th:replace="~{navbar::navbar}"></div>
 
-    <a class="h2" th:href="@{/users}">USERS LIST(FOR ADMIN)</a>
-    <div></div>
-    <div></div>
-    <a class="h2" th:href="@{/publications/edit}">PUBLICATIONS LIST TO EDIT(FOR ADMIN)</a>
-    <div></div>
-    <div></div>
-    <a class="h2" th:href="@{/login}">LOGIN (NOT READY)</a>
-    <div></div>
-    <div></div>
-    <a class="h2" th:href="@{/users/account}">PERSONAL ACCOUNT ( NOT READY )</a>
-    <div></div>
-    <div></div>
+    <div class="row" style="min-height: 85vh;">
+        <div class="col col-12 text-center">
+            <h1>Welcome to periodicals page</h1>
+            <a class="h2" th:href="@{/layout}">Stefans</a>
+            <div></div>
+            <div></div>
+            <a class="h2" th:href="@{/users/register}">REGISTER</a>
+            <div></div>
+            <div></div>
+            <a class="h2" th:href="@{/publications/subscription}">PUBLICATIONS TO SUBSCRIPTION</a>
+            <div></div>
+            <div></div>
+
+            <a class="h2" th:href="@{/users}">USERS LIST(FOR ADMIN)</a>
+            <div></div>
+            <div></div>
+            <a class="h2" th:href="@{/publications/edit}">PUBLICATIONS LIST TO EDIT(FOR ADMIN)</a>
+            <div></div>
+            <div></div>
+            <a class="h2" th:href="@{/login}">LOGIN (NOT READY)</a>
+            <div></div>
+            <div></div>
+            <a class="h2" th:href="@{/users/account}">PERSONAL ACCOUNT ( NOT READY )</a>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div th:replace="~{footer::footer}"></div>
 </div>
 </body>
 </html>

@@ -2,9 +2,9 @@ package org.cegielka.periodicals.controller;
 
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
 import org.cegielka.periodicals.entity.User;
-import org.cegielka.periodicals.service.RegistrationService;
+import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
-import org.cegielka.periodicals.service.impl.RegistrationServiceImpl;
+import org.cegielka.periodicals.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +19,9 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private RegistrationService userService;
+    private UserService userService;
 
-    public UserController(RegistrationServiceImpl userService) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 

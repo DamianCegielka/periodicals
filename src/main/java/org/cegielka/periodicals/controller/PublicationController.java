@@ -4,10 +4,10 @@ import org.cegielka.periodicals.dto.PublicationRegistrationRequest;
 import org.cegielka.periodicals.dto.SubscriptionRequest;
 import org.cegielka.periodicals.entity.Publication;
 import org.cegielka.periodicals.service.PublicationService;
-import org.cegielka.periodicals.service.RegistrationService;
+import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.impl.PublicationServiceImpl;
-import org.cegielka.periodicals.service.impl.RegistrationServiceImpl;
+import org.cegielka.periodicals.service.impl.UserServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -23,10 +23,10 @@ import java.util.List;
 public class PublicationController {
 
     private PublicationService publicationService;
-    private RegistrationService registrationService;
+    private UserService registrationService;
 
     public PublicationController(PublicationServiceImpl publicationService,
-                                 RegistrationServiceImpl registrationService) {
+                                 UserServiceImpl registrationService) {
         this.publicationService = publicationService;
         this.registrationService = registrationService;
     }
@@ -34,13 +34,14 @@ public class PublicationController {
     @GetMapping("/subscription")
     public String showPublicationListToSubscription(Model model, @Param("keyword") String keyword,
                                                     @Param("sortField") String sortField,
-                                                    @Param("sortDir") String sortDir) {
+                                                    @Param("sortDir") String sortDir,
+                                                    @Param("groupValue") Long groupValue) {
         //List<Publication> listPublications = publicationService.listAll();
         /*List<Publication> listPublications=publicationService.searchPublicationByTitle(keyword);
         model.addAttribute("listPublications", listPublications);
         return "publications_subscription";
          */
-        return findPaginated(1, model, keyword, "id", "asc");
+        return findPaginated(1, model, keyword, "id", "asc", groupValue);
     }
 
     @GetMapping("/subscription/{id}")
@@ -48,9 +49,8 @@ public class PublicationController {
         try {
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
             subscriptionRequest.setPublicationId(publicationService.get(id));
-            subscriptionRequest.setUserId(registrationService.get(1l));//to change information about users from session
+            subscriptionRequest.setUserId(registrationService.get(registrationService.getIdUserWhichIsLogin()));
             subscriptionRequest.setDate(LocalDateTime.now());
-
             if (publicationService.addSubscription(subscriptionRequest)) {
                 redirectAttributes.addFlashAttribute("message",
                         "The subscription has been added successfully.");
@@ -70,7 +70,6 @@ public class PublicationController {
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
             subscriptionRequest.setPublicationId(publicationService.get(id));
             subscriptionRequest.setUserId(registrationService.get(1L));//to change information about users from session
-
             if (publicationService.deleteSubscription(subscriptionRequest)) {
                 redirectAttributes.addFlashAttribute("message", "The subscription has been deleted successfully.");
             } else {
@@ -83,14 +82,17 @@ public class PublicationController {
     }
 
     @GetMapping("/subscription/page/{pageNo}")
-    String findPaginated(@PathVariable("pageNo") int pageNo, Model model, @Param("keyword") String keyword,
+    String findPaginated(@PathVariable("pageNo") int pageNo,
+                         Model model,
+                         @Param("keyword") String keyword,
                          @Param("sortField") String sortField,
-                         @Param("sortDir") String sortDir) {
+                         @Param("sortDir") String sortDir,
+                         @Param("groupValue") Long groupValue) {
         int pageSize = 5;
-
-        Page<Publication> page = publicationService.findPaginatedWithSearching(pageNo, pageSize, keyword, sortField, sortDir);
-
+        Page<Publication> page = publicationService.findPaginatedWithSearching(pageNo, pageSize, keyword, sortField, sortDir, groupValue);
         List<Publication> listPublications = page.getContent();
+        // List<String> listCollection = publicationService.findPaginatedWithSearching(pageNo, pageSize, keyword, sortField, sortDir);
+        Long numberIdForLoginUser=registrationService.getIdUserWhichIsLogin();
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -98,6 +100,8 @@ public class PublicationController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("listPublications", listPublications);
+        //amodel.addAttribute("listCollection", listCollection);
+        model.addAttribute("idLoginUser",numberIdForLoginUser);
 
         return "publications_subscription";
     }

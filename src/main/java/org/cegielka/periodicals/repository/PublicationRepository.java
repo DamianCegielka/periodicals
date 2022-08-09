@@ -21,5 +21,12 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
 
     @Query("select p from Publication p where p.title like concat('%', ?1, '%')")
     Page<Publication> findByTitleContaining(String title, Pageable pageable);
+    @Query("select p from Publication p where p.accumulation.id = ?1")
+    Page<Publication> findByGroup(Long groupValue, Pageable pageable);
+
+    @Query("select p from Publication p where p.title like concat('%', ?1, '%') AND p.accumulation.id = ?2")
+    Page<Publication> findByTitleContainingAndGroup(String title, Long groupValue, Pageable pageable);
+
+
 
 }
