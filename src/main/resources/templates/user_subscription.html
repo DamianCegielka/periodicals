@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>User Subscription</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div th:replace="~{navbar::navbar}"></div>
+<div class="row" style="min-height: 85vh;">
+  <li class="container-fluid text-center " style="max-width: 1200px; list-style-type: none;">
+    <div><h2>List of your subscriptions</h2></div>
+    <div class="m-1">
+    </div>
+    <table class="table table-bordered">
+      <thead class="dropdown-menu-dark" >
+      <tr>
+        <th>Subscription date</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Topic</th>
+        <th>Group</th>
+        <th>Details Information</th>
+
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <th:block th:each="subscription : ${listPublications}">
+        <tr>
+          <td>[[${subscription.date}]]</td>
+          <td>[[${subscription.publication.title}]]</td>
+          <td>[[${subscription.publication.topic}]]</td>
+          <td>[[${subscription.publication.accumulation.accumulation}]]</td>
+          <td>[[${subscription.publication.description}]]</td>
+          <!-- <td><a class="btn btn-info m-2 text-center "
+                  th:href="@{'/publications/subscription/details/'+${publication.id}}">DETAILS</a></td>-->
+        </tr>
+      </th:block>
+      </tbody>
+    </table>
+    <div th:if="${totalPages > 1}">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link"
+               th:if="${currentPage > 1}"
+               th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">Previous</a>
+            <span class="page-link" th:if="${currentPage == 1}">Previous</span>
+          </li>
+          <li th:each="i: ${#numbers.sequence(1, totalPages)}" th:class="${(currentPage == i) ? 'page-item active' : 'page-item'}">
+            <a class="page-link"
+               th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link"
+               th:if="${currentPage < totalPages}"
+               th:href="@{'/publications/subscription/page/'+${currentPage+1} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+</div>
+<div th:replace="~{footer::footer}"></div>
+</body>
+</html>

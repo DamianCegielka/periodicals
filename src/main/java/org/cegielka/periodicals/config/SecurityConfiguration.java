@@ -1,5 +1,6 @@
 package org.cegielka.periodicals.config;
 
+import lombok.AllArgsConstructor;
 import org.cegielka.periodicals.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,21 +14,16 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfiguration {
 
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public SecurityConfiguration(UserService userService, BCryptPasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/layout","/").authenticated()
-                //.antMatchers("/publications/subscription").hasAuthority("USER")
+                .antMatchers("/users/subscription").authenticated()
                 .antMatchers("/publications/edit", "/users").hasAuthority("ADMIN")
                 .anyRequest().permitAll()
                 .and()

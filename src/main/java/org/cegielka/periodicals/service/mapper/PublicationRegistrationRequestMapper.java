@@ -1,12 +1,12 @@
 package org.cegielka.periodicals.service.mapper;
 
-import org.cegielka.periodicals.dto.PublicationRegistrationRequest;
+import org.cegielka.periodicals.dto.PublicationRequest;
 import org.cegielka.periodicals.entity.Publication;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PublicationRegistrationRequestMapper {
-    public static Publication map(PublicationRegistrationRequest request) {
+    public static Publication map(PublicationRequest request) {
 
         Publication publication = new Publication();
 

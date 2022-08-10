@@ -6,8 +6,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
+<div th:replace="~{navbar::navbar}"></div>
 <div class="container-fluid text-center" style="max-width: 1000px; margin: 0 auto;">
-    <div><h2>List of Periodicals</h2></div>
+    <div><h2>Add/Edit Publications</h2></div>
     <div class="m-1">
         <a class="btn btn-primary btn-lg" th:href="@{/publications/new}">Add new Periodical</a>
     </div>
@@ -43,5 +44,6 @@
     </table>
 
 </div>
+<div th:replace="~{footer::footer}"></div>
 </body>
 </html>

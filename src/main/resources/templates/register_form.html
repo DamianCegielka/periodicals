@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
+<div th:replace="~{navbar::navbar}"></div>
 <div class="container-fluid text-center">
     <div class="text-center"><h2>[[${pageTitle}]]</h2></div>
     <form th:action="@{/users/save}" method="post" th:object="${user}" style="max-width: 500px; margin: 0 auto;">
@@ -37,5 +38,6 @@
         </div>
     </form>
 </div>
+<div th:replace="~{footer::footer}"></div>
 </body>
 </html>

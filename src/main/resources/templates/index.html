@@ -6,33 +6,21 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
+<div th:replace="~{navbar::navbar}"></div>
 <div class="container">
-    <div th:replace="~{navbar::navbar}"></div>
-
+    <!--<div th:replace="~{navbar::navbar}"></div>-->
     <div class="row" style="min-height: 85vh;">
         <div class="col col-12 text-center">
-            <h1>Welcome to periodicals page</h1>
-            <a class="h2" th:href="@{/layout}">Stefans</a>
+            <h1>Welcome to periodicals page !</h1>
+            <p class ="h2"> If you want see all publications click link below:</p>
             <div></div>
+            <a class="h2" th:href="@{/publications/subscription}">PUBLICATIONS</a>
             <div></div>
+            <p class ="h2"> To have chance subscribe some periodic please login:</p>
+            <a class="h2" th:href="@{/login}">LOGIN</a>
+            <div></div>
+            <p class ="h2"> If you are not register you can do this here.</p>
             <a class="h2" th:href="@{/users/register}">REGISTER</a>
-            <div></div>
-            <div></div>
-            <a class="h2" th:href="@{/publications/subscription}">PUBLICATIONS TO SUBSCRIPTION</a>
-            <div></div>
-            <div></div>
-
-            <a class="h2" th:href="@{/users}">USERS LIST(FOR ADMIN)</a>
-            <div></div>
-            <div></div>
-            <a class="h2" th:href="@{/publications/edit}">PUBLICATIONS LIST TO EDIT(FOR ADMIN)</a>
-            <div></div>
-            <div></div>
-            <a class="h2" th:href="@{/login}">LOGIN (NOT READY)</a>
-            <div></div>
-            <div></div>
-            <a class="h2" th:href="@{/users/account}">PERSONAL ACCOUNT ( NOT READY )</a>
-            <div></div>
             <div></div>
         </div>
     </div>

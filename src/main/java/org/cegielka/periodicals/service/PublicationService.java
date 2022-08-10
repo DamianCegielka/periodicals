@@ -1,10 +1,10 @@
 package org.cegielka.periodicals.service;
 
-import org.cegielka.periodicals.dto.PublicationRegistrationRequest;
+import org.cegielka.periodicals.dto.PublicationRequest;
 import org.cegielka.periodicals.dto.SubscriptionRequest;
 import org.cegielka.periodicals.entity.Publication;
+import org.cegielka.periodicals.entity.Subscription;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface PublicationService {
 
     List<Publication> listAll();
 
-    void register(PublicationRegistrationRequest request);
+    void register(PublicationRequest request);
 
     Publication get(Long id);
 
@@ -31,7 +31,6 @@ public interface PublicationService {
                                                  String sortDirection,
                                                  Long groupValue);
 
-
-
+    List<Subscription> showPublicationsSubscribingByUser(Long Userid);
 
 }

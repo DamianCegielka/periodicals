@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 @Data
 @NoArgsConstructor
-public class PublicationRegistrationRequest {
+public class PublicationRequest {
 
     private Long id;
     private String title;

@@ -1,14 +1,12 @@
 package org.cegielka.periodicals.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.cegielka.periodicals.dto.PublicationRegistrationRequest;
+import org.cegielka.periodicals.dto.PublicationRequest;
 import org.cegielka.periodicals.dto.SubscriptionRequest;
 import org.cegielka.periodicals.entity.Publication;
 import org.cegielka.periodicals.entity.Subscription;
 import org.cegielka.periodicals.repository.PublicationRepository;
 import org.cegielka.periodicals.repository.SubscriptionRepository;
-import org.cegielka.periodicals.repository.UserRepository;
 import org.cegielka.periodicals.service.PublicationService;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
@@ -45,11 +43,11 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public List<Publication> listAll() {
-        return (List<Publication>) publicationRepository.findAll();
+        return publicationRepository.findAll();
     }
 
     @Override
-    public void register(PublicationRegistrationRequest request) {
+    public void register(PublicationRequest request) {
         Publication publication = PublicationRegistrationRequestMapper.map(request);
         publicationRepository.save(publication);
     }
@@ -129,7 +127,11 @@ public class PublicationServiceImpl implements PublicationService {
         }
     }
 
-
+    @Override
+    public List<Subscription> showPublicationsSubscribingByUser(Long userid) {
+       List<Subscription> listPublication= subscriptionRepository.findSubscriptionsByUserId(userid);
+       return listPublication;
+    }
 
 
 }

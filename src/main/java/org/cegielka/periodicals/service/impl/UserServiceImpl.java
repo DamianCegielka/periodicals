@@ -102,6 +102,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String getUserRoleWhichIsLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication.getPrincipal() == "anonymousUser" ) return null;
+        User customUser = (User)authentication.getPrincipal();
+        return customUser.getRole().getRole();
+    }
+
+    @Override
     public void calculateFoundsOnAccountUser(Long userId, int price) {
         int actualFunds=(userRepository.findById(userId).get().getAccount())-price;
         userRepository.findById(userId).get().setAccount(actualFunds);

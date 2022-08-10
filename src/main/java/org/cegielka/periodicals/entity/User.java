@@ -1,6 +1,5 @@
 package org.cegielka.periodicals.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,7 +42,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.active = active;
-        this.account=100;
+        this.account = 100;
     }
 
     @Override
@@ -75,7 +74,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 
 }

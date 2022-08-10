@@ -2,14 +2,14 @@
 <html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>List of Periodicals</title>
+    <title>Publications to subscribe</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
     <div th:replace="~{navbar::navbar}"></div>
     <div class="row" style="min-height: 85vh;">
-        <li class="container-fluid text-center" style="max-width: 1000px; margin: 0 auto;">
-        <div><h2>List of Periodicals</h2></div>
+       <li class="container-fluid text-center " style="max-width: 1200px; list-style-type: none;">
+        <div><h2>Publications to subscribe</h2></div>
         <div class="m-1">
         </div>
         <div th:if="${message}" class="alert alert-success text-center">
@@ -19,17 +19,18 @@
             [[${message2}]]
         </div>
         <nav class="navbar navbar-light bg-light justify-content-between">
-            <a class="navbar-brand">PERIODICALS</a>
             <form class="form-inline" th:action="@{'/publications/subscription'}">
                 <select name="groupValue" class="form-select" aria-label="Default select example" th:value="${groupValue}">
-                    <option value="">Open this select menu</option>
+                    <option value="">Groups to choose</option>
                     <option value=1>News</option>
-                    <option value=2>Sport</option>
-                    <option value=3>Other</option>
+                    <option value=2>Science</option>
+                    <option value=3>Lifestyle</option>
+                    <option value=4>Sport</option>
+                    <option value=5>Financial</option>
                 </select>
-                <input class="form-control m-2" type="search" placeholder="Search By Title" aria-label="Search By Title"
+                <input class="form-control" type="search" placeholder="Search By Title" aria-label="Search By Title"
                        name="keyword" th:value="${keyword}">
-                <button class="btn btn-secondary my-2 m-2" type="submit">Search By Title</button>
+                <button class="btn btn-secondary my-2 m-2" type="submit">  Search  </button>
                 <a href="http://localhost:8080/publications/subscription" class="btn btn-secondary my-2 m-2" type="submit">Clear</a>
             </form>
         </nav>
@@ -47,6 +48,7 @@
                 <th>
                     <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=topic'+ '&sortDir=' + ${reverseSortDir}}">
                         Topic</a></th>
+                <th>Group</th>
                 <th>Details Information</th>
 
                 <th></th>
@@ -59,8 +61,10 @@
                     <td>[[${publication.title}]]</td>
                     <td>[[${publication.price}]]</td>
                     <td>[[${publication.topic}]]</td>
-                    <td><a class="btn btn-info m-2 text-center "
-                           th:href="@{'/publications/subscription/details/'+${publication.id}}">DETAILS</a></td>
+                    <td>[[${publication.accumulation.accumulation}]]</td>
+                    <td>[[${publication.description}]]</td>
+                   <!-- <td><a class="btn btn-info m-2 text-center "
+                           th:href="@{'/publications/subscription/details/'+${publication.id}}">DETAILS</a></td>-->
                     <td th:if="${idLoginUser}">
                         <a class="btn btn-success m-2 text-center "
                            th:href="@{'/publications/subscription/'+${publication.id}}">SUBSCRIBE</a>
