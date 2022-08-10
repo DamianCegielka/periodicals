@@ -1,17 +1,16 @@
 package org.cegielka.periodicals.service.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.cegielka.periodicals.dto.PublicationRequest;
-import org.cegielka.periodicals.dto.SubscriptionRequest;
 import org.cegielka.periodicals.entity.Publication;
-import org.cegielka.periodicals.entity.Subscription;
 import org.cegielka.periodicals.repository.PublicationRepository;
 import org.cegielka.periodicals.repository.SubscriptionRepository;
 import org.cegielka.periodicals.service.PublicationService;
 import org.cegielka.periodicals.service.UserService;
+import org.cegielka.periodicals.service.exception.PublicationNotAddEsception;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.mapper.PublicationRegistrationRequestMapper;
-import org.cegielka.periodicals.service.mapper.SubscriptionRequestMapper;
 import org.cegielka.periodicals.service.validator.SubscriptionValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,21 +24,12 @@ import java.util.Optional;
 
 @Log4j2
 @Service
+@AllArgsConstructor
 public class PublicationServiceImpl implements PublicationService {
     PublicationRepository publicationRepository;
     SubscriptionRepository subscriptionRepository;
     SubscriptionValidator subscriptionValidator;
     UserService userService;
-
-    public PublicationServiceImpl(PublicationRepository publicationRepository,
-                                  SubscriptionRepository subscriptionRepository,
-                                  SubscriptionValidator subscriptionValidator,
-                                  UserService userService) {
-        this.publicationRepository = publicationRepository;
-        this.subscriptionRepository = subscriptionRepository;
-        this.subscriptionValidator = subscriptionValidator;
-        this.userService=userService;
-    }
 
     @Override
     public List<Publication> listAll() {
@@ -47,9 +37,14 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
+    @Transactional
     public void register(PublicationRequest request) {
-        Publication publication = PublicationRegistrationRequestMapper.map(request);
-        publicationRepository.save(publication);
+        try {
+            Publication publication = PublicationRegistrationRequestMapper.map(request);
+            publicationRepository.save(publication);
+        } catch (PublicationNotAddEsception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -69,69 +64,30 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    @Transactional
-    public boolean addSubscription(SubscriptionRequest request) {
-        Subscription subscription = SubscriptionRequestMapper.map(request);
-        if (subscriptionValidator.isInDatabase(request)
-                || (!subscriptionValidator.isActiveUser(subscription))
-                || (!subscriptionValidator.isUserHaveFoundsForSubscription(request))) {
-            return false;
-        } else {
-            userService.calculateFoundsOnAccountUser(request.getUserId().getId(),
-                                                    request.getPublicationId().getPrice().intValue());
-            subscriptionRepository.save(subscription);
-            return true;
-        }
-    }
-
-    @Override
     public List<Publication> searchPublicationByTitle(String query) {
         if (query != null) {
             return publicationRepository.searchAllPublicationByTitle(query);
         } else {
-            return (List<Publication>) publicationRepository.findAll();
+            return publicationRepository.findAll();
         }
     }
 
     @Override
-    public boolean deleteSubscription(SubscriptionRequest request) {
+    public Page<Publication> findPaginatedWithSearching(int pageNo, int pageSize, String query, String sortField, String sortDirection, Long groupValue) {
 
-        if (subscriptionValidator.isSubscriptionInDatabase(request)) {
-            Subscription subscription = subscriptionRepository.findSubscriptionsByPublicationAndUser
-                    (request.getPublicationId(), request.getUserId()).get();
-            subscriptionRepository.delete(subscription);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public Page<Publication> findPaginatedWithSearching(int pageNo, int pageSize, String query,String sortField,String sortDirection,Long groupValue) {
-
-        Sort sort=sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
                 ? Sort.by(sortField).ascending()
                 : Sort.by(sortField).descending();
-        Pageable pageable= PageRequest.of(pageNo-1,pageSize,sort);
-        if(query!=null && groupValue != null){
-            return publicationRepository.findByTitleContainingAndGroup(query,groupValue,pageable);
-        }
-        else if(groupValue!=null){
-            return publicationRepository.findByGroup(groupValue,pageable);
-        }
-        else if(query!=null){
-            return publicationRepository.findByTitleContaining(query,pageable);
-        }
-        else{
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        if (query != null && groupValue != null) {
+            return publicationRepository.findByTitleContainingAndGroup(query, groupValue, pageable);
+        } else if (groupValue != null) {
+            return publicationRepository.findByGroup(groupValue, pageable);
+        } else if (query != null) {
+            return publicationRepository.findByTitleContaining(query, pageable);
+        } else {
             return publicationRepository.findAll(pageable);
         }
     }
-
-    @Override
-    public List<Subscription> showPublicationsSubscribingByUser(Long userid) {
-       List<Subscription> listPublication= subscriptionRepository.findSubscriptionsByUserId(userid);
-       return listPublication;
-    }
-
 
 }

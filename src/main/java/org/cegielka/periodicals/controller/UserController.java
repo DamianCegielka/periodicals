@@ -5,6 +5,7 @@ import org.cegielka.periodicals.dto.UserRegistrationRequest;
 import org.cegielka.periodicals.entity.Subscription;
 import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.service.PublicationService;
+import org.cegielka.periodicals.service.SubscriptionService;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class UserController {
 
     private UserService userService;
     private PublicationService publicationService;
+    private SubscriptionService subscriptionService;
 
     @GetMapping(" ")
     public String showUserList(Model model) {
@@ -68,8 +70,8 @@ public class UserController {
 
     @GetMapping("/subscription")
     public String showSubscriptionByUser(Model model) {
-        List<Subscription> listPublications = publicationService
-                .showPublicationsSubscribingByUser(userService.getIdUserWhichIsLogin());
+        List<Subscription> listPublications = subscriptionService
+                .showSubscriptionsSubscribingByUser(userService.getIdUserWhichIsLogin());
         Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
         String roleForLoginUser = userService.getUserRoleWhichIsLogin();
         model.addAttribute("idLoginUser", numberIdForLoginUser);

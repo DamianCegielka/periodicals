@@ -1,10 +1,12 @@
 package org.cegielka.periodicals.service.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
 import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.repository.UserRepository;
 import org.cegielka.periodicals.service.UserService;
+import org.cegielka.periodicals.service.exception.CalculateFoundsOnAccountUserException;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.mapper.UserRegistrationRequestMapper;
 import org.cegielka.periodicals.service.validator.PasswordValidator;
@@ -21,22 +23,13 @@ import java.util.Optional;
 
 @Log4j2
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private UserRegistrationRequestMapper userRegistrationRequestMapper;
     private PasswordValidator passwordValidator;
     private UserRegistrationValidator userRegistrationValidator;
-
-    public UserServiceImpl(UserRepository userRepository,
-                           UserRegistrationValidator userRegistrationValidator,
-                           PasswordValidator passwordValidator,
-                           UserRegistrationRequestMapper userRegistrationRequestMapper) {
-        this.userRepository = userRepository;
-        this.userRegistrationValidator = userRegistrationValidator;
-        this.passwordValidator = passwordValidator;
-        this.userRegistrationRequestMapper = userRegistrationRequestMapper;
-    }
 
     @Override
     @Transactional
@@ -66,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> listAll() {
-        return (List<User>) userRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
@@ -96,32 +89,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long getIdUserWhichIsLogin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getPrincipal() == "anonymousUser" ) return null;
-        User customUser = (User)authentication.getPrincipal();
+        if (authentication.getPrincipal() == "anonymousUser") return null;
+        User customUser = (User) authentication.getPrincipal();
         return customUser.getId();
     }
 
     @Override
     public String getUserRoleWhichIsLogin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getPrincipal() == "anonymousUser" ) return null;
-        User customUser = (User)authentication.getPrincipal();
+        if (authentication.getPrincipal() == "anonymousUser") return null;
+        User customUser = (User) authentication.getPrincipal();
         return customUser.getRole().getRole();
     }
 
     @Override
+    @Transactional
     public void calculateFoundsOnAccountUser(Long userId, int price) {
-        int actualFunds=(userRepository.findById(userId).get().getAccount())-price;
-        userRepository.findById(userId).get().setAccount(actualFunds);
+        try {
+            int actualFunds = (userRepository.findById(userId).get().getAccount()) - price;
+            userRepository.findById(userId).get().setAccount(actualFunds);
+        } catch (CalculateFoundsOnAccountUserException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
     }
-
-
 }
 
 

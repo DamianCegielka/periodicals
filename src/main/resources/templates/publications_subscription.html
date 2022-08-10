@@ -6,9 +6,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-    <div th:replace="~{navbar::navbar}"></div>
-    <div class="row" style="min-height: 85vh;">
-       <li class="container-fluid text-center " style="max-width: 1200px; list-style-type: none;">
+<div th:replace="~{navbar::navbar}"></div>
+<div class="row" style="min-height: 85vh;">
+    <li class="container-fluid text-center " style="max-width: 1200px; list-style-type: none;">
         <div><h2>Publications to subscribe</h2></div>
         <div class="m-1">
         </div>
@@ -20,7 +20,8 @@
         </div>
         <nav class="navbar navbar-light bg-light justify-content-between">
             <form class="form-inline" th:action="@{'/publications/subscription'}">
-                <select name="groupValue" class="form-select" aria-label="Default select example" th:value="${groupValue}">
+                <select name="groupValue" class="form-select" aria-label="Default select example"
+                        th:value="${groupValue}">
                     <option value="">Groups to choose</option>
                     <option value=1>News</option>
                     <option value=2>Science</option>
@@ -30,15 +31,17 @@
                 </select>
                 <input class="form-control" type="search" placeholder="Search By Title" aria-label="Search By Title"
                        name="keyword" th:value="${keyword}">
-                <button class="btn btn-secondary my-2 m-2" type="submit">  Search  </button>
-                <a href="http://localhost:8080/publications/subscription" class="btn btn-secondary my-2 m-2" type="submit">Clear</a>
+                <button class="btn btn-secondary my-2 m-2" type="submit"> Search</button>
+                <a href="http://localhost:8080/publications/subscription" class="btn btn-secondary my-2 m-2"
+                   type="submit">Clear</a>
             </form>
         </nav>
         <table class="table table-bordered">
-            <thead class="dropdown-menu-dark" >
+            <thead class="dropdown-menu-dark">
             <tr>
-                <th><a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=id'+ '&sortDir=' + ${reverseSortDir}}">
-                    ID</a></th>
+                <th>
+                    <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=id'+ '&sortDir=' + ${reverseSortDir}}">
+                        ID</a></th>
                 <th>
                     <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=title'+ '&sortDir=' + ${reverseSortDir}}">
                         Title</a></th>
@@ -63,8 +66,8 @@
                     <td>[[${publication.topic}]]</td>
                     <td>[[${publication.accumulation.accumulation}]]</td>
                     <td>[[${publication.description}]]</td>
-                   <!-- <td><a class="btn btn-info m-2 text-center "
-                           th:href="@{'/publications/subscription/details/'+${publication.id}}">DETAILS</a></td>-->
+                    <!-- <td><a class="btn btn-info m-2 text-center "
+                            th:href="@{'/publications/subscription/details/'+${publication.id}}">DETAILS</a></td>-->
                     <td th:if="${idLoginUser}">
                         <a class="btn btn-success m-2 text-center "
                            th:href="@{'/publications/subscription/'+${publication.id}}">SUBSCRIBE</a>
@@ -84,7 +87,8 @@
                            th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">Previous</a>
                         <span class="page-link" th:if="${currentPage == 1}">Previous</span>
                     </li>
-                    <li th:each="i: ${#numbers.sequence(1, totalPages)}" th:class="${(currentPage == i) ? 'page-item active' : 'page-item'}">
+                    <li th:each="i: ${#numbers.sequence(1, totalPages)}"
+                        th:class="${(currentPage == i) ? 'page-item active' : 'page-item'}">
                         <a class="page-link"
                            th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a>
                     </li>
@@ -96,7 +100,7 @@
                 </ul>
             </nav>
         </div>
-    </div>
-    <div th:replace="~{footer::footer}"></div>
+</div>
+<div th:replace="~{footer::footer}"></div>
 </body>
 </html>

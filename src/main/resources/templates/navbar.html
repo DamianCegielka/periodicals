@@ -5,33 +5,33 @@
     <title>Title</title>
 </head>
 <body>
-    <div class="row">
-        <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-info">
-            <div class="container-fluid">
-                <a class="navbar-brand" th:href="@{/}">PERIODICALS</a>
-                <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page"  th:href="@{/publications/subscription}">Publications</a>
-                        </li>
-                        <li class="nav-item" th:if="${idLoginUser}">
-                            <a class="nav-link active"  th:href="@{/users/subscription}">My Subscription</a>
-                        </li>
-                        <li class="nav-item" th:if="${userRole=='ADMIN'}">
-                            <a class="nav-link active"  th:href="@{/publications/edit}">Edit Publication</a>
-                        </li>
-                        <li class="nav-item" th:if="${userRole=='ADMIN'}">
-                            <a class="nav-link active"  th:href="@{/users}">Manage Users</a>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/login}">Login</a>
-                        <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/users/register}">Registration</a>
-                        <a th:if="${idLoginUser}" class="nav-link active" th:href="@{/logout}">Logout</a>
-                    </form>
-                </div>
+<div class="row">
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-info">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">PERIODICALS</a>
+            <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/publications/subscription}">Publications</a>
+                    </li>
+                    <li class="nav-item" th:if="${idLoginUser}">
+                        <a class="nav-link active" th:href="@{/users/subscription}">My Subscription</a>
+                    </li>
+                    <li class="nav-item" th:if="${userRole=='ADMIN'}">
+                        <a class="nav-link active" th:href="@{/publications/edit}">Edit Publication</a>
+                    </li>
+                    <li class="nav-item" th:if="${userRole=='ADMIN'}">
+                        <a class="nav-link active" th:href="@{/users}">Manage Users</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/login}">Login</a>
+                    <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/users/register}">Registration</a>
+                    <a th:if="${idLoginUser}" class="nav-link active" th:href="@{/logout}">Logout</a>
+                </form>
             </div>
-        </nav>
-    </div>
+        </div>
+    </nav>
+</div>
 </body>
 </html>

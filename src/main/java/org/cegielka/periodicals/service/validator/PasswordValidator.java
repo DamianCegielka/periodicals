@@ -12,13 +12,11 @@ public class PasswordValidator {
         this.encoder = encoder;
     }
 
-
     public String encodePasswordFromRegisterForm(String password) {
-
         return encoder.encode(password);
     }
 
     public boolean isMatched(String inputPassword, String encodedPassword) {
-        return true;
+        return (encodedPassword.equals(this.encodePasswordFromRegisterForm(inputPassword)));
     }
 }

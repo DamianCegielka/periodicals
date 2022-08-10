@@ -23,5 +23,5 @@ public interface UserService extends UserDetailsService {
 
     String getUserRoleWhichIsLogin();
 
-    void calculateFoundsOnAccountUser(Long userId,int price);
+    void calculateFoundsOnAccountUser(Long userId, int price);
 }

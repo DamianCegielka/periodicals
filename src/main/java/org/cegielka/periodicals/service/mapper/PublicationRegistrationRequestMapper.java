@@ -9,12 +9,10 @@ public class PublicationRegistrationRequestMapper {
     public static Publication map(PublicationRequest request) {
 
         Publication publication = new Publication();
-
         publication.setId(request.getId());
         publication.setTitle(request.getTitle());
         publication.setPrice(request.getPrice());
         publication.setTopic(request.getTopic());
-
         return publication;
     }
 }

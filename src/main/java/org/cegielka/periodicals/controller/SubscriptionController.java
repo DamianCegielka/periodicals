@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.cegielka.periodicals.dto.SubscriptionRequest;
 import org.cegielka.periodicals.entity.Publication;
 import org.cegielka.periodicals.service.PublicationService;
+import org.cegielka.periodicals.service.SubscriptionService;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,8 @@ public class SubscriptionController {
 
     private PublicationService publicationService;
     private UserService userService;
+
+    SubscriptionService subscriptionService;
 
     @GetMapping("")
     public String showPublicationListToSubscription(Model model,
@@ -68,7 +71,7 @@ public class SubscriptionController {
             SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
             subscriptionRequest.setPublicationId(publicationService.get(id));
             subscriptionRequest.setUserId(userService.get(userService.getIdUserWhichIsLogin()));
-            if (publicationService.deleteSubscription(subscriptionRequest)) {
+            if (subscriptionService.deleteSubscription(subscriptionRequest)) {
                 redirectAttributes.addFlashAttribute("message", "The subscription has been deleted successfully.");
             } else {
                 redirectAttributes.addFlashAttribute("message2", "The subscription not deleted.Probably you don't subscribe this position");
@@ -86,7 +89,7 @@ public class SubscriptionController {
             subscriptionRequest.setPublicationId(publicationService.get(id));
             subscriptionRequest.setUserId(userService.get(userService.getIdUserWhichIsLogin()));
             subscriptionRequest.setDate(LocalDateTime.now());
-            if (publicationService.addSubscription(subscriptionRequest)) {
+            if (subscriptionService.addSubscription(subscriptionRequest)) {
                 redirectAttributes.addFlashAttribute("message",
                         "The subscription has been added successfully.");
             } else {

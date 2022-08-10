@@ -1,7 +1,7 @@
 package org.cegielka.periodicals.service.validator;
 
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
-import org.cegielka.periodicals.service.exception.IllegalPaswordValueException;
+import org.cegielka.periodicals.service.exception.IllegalPasswordValueException;
 import org.cegielka.periodicals.service.exception.PasswordsAreNotSameException;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +12,14 @@ public class UserRegistrationValidator {
     public void validate(UserRegistrationRequest request) {
         String password = request.getPassword();
         String repeatPassword = request.getRepeatPassword();
-        if (!password.equals(repeatPassword)) {//TODO NPE?
+        if (!password.equals(repeatPassword)) {
             throw new PasswordsAreNotSameException();
         }
         if (password == null || password.length() < MIN_VALID_PASSWORD_LENGTH) {
-            throw new IllegalPaswordValueException();
+            throw new IllegalPasswordValueException();
         }
 
-        //email as login validate
+
     }
 }
 
