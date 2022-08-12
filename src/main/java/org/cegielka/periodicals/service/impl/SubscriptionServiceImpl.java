@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -49,20 +50,19 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public boolean deleteSubscription(SubscriptionRequest request) {
-
-        if (subscriptionValidator.isSubscriptionInDatabase(request)) {
-            Subscription subscription = subscriptionRepository.findSubscriptionsByPublicationAndUser
-                    (request.getPublicationId(), request.getUserId()).get();
-            subscriptionRepository.delete(subscription);
+        Optional<Subscription> subscription = subscriptionRepository.findSubscriptionsByPublicationAndUser
+                (request.getPublicationId(), request.getUserId());
+        if (subscription.isPresent()) {
+            subscriptionRepository.delete(subscription.get());
             return true;
         } else {
             return false;
         }
     }
 
+
     @Override
     public List<Subscription> showSubscriptionsSubscribingByUser(Long userid) {
-        List<Subscription> listPublication = subscriptionRepository.findSubscriptionsByUserId(userid);
-        return listPublication;
+        return subscriptionRepository.findSubscriptionsByUserId(userid);
     }
 }

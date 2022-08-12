@@ -2,7 +2,9 @@ package org.cegielka.periodicals.controller;
 
 import lombok.AllArgsConstructor;
 import org.cegielka.periodicals.dto.PublicationRequest;
+import org.cegielka.periodicals.entity.Accumulation;
 import org.cegielka.periodicals.entity.Publication;
+import org.cegielka.periodicals.repository.AccumulationRepository;
 import org.cegielka.periodicals.service.PublicationService;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
@@ -21,11 +23,16 @@ import java.util.List;
 @AllArgsConstructor
 public class PublicationController {
 
-    private PublicationService publicationService;
-    private UserService userService;
+    private final PublicationService publicationService;
+    private final UserService userService;
+
+    private static final String MESSAGE="MESSAGE";
+    private static final String REDIRECT_PUBLICATIONS_EDIT="redirect:/publications/edit";
 
     @GetMapping("/new")
     public String showNewForm(Model model) {
+        List<Accumulation> listAccumulation=publicationService.getAllAccumulation();
+        model.addAttribute("listAccumulation", listAccumulation);
         model.addAttribute("publication", new PublicationRequest());
         model.addAttribute("pageTitle", "Add New Publication");
         return "publication_form";
@@ -33,9 +40,11 @@ public class PublicationController {
 
     @PostMapping("/save")
     public String saveUser(PublicationRequest publication, RedirectAttributes redirectAttributes) {
+        System.out.println(publication);
+        System.out.println(publication.getAccumulation());
         publicationService.register(publication);
-        redirectAttributes.addFlashAttribute("message", "The publication has been saved successfully.");
-        return "redirect:/publications/edit";
+        redirectAttributes.addFlashAttribute(MESSAGE, "The publication has been saved successfully.");
+        return REDIRECT_PUBLICATIONS_EDIT;
     }
 
     @GetMapping("/edit")
@@ -53,12 +62,18 @@ public class PublicationController {
     public String showEditForm(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
             Publication publication = publicationService.get(id);
+            List<Accumulation> listAccumulation=publicationService.getAllAccumulation();
+            Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
+            String roleForLoginUser = userService.getUserRoleWhichIsLogin();
+            model.addAttribute("idLoginUser", numberIdForLoginUser);
+            model.addAttribute("userRole", roleForLoginUser);
+            model.addAttribute("listAccumulation", listAccumulation);
             model.addAttribute("publication", publication);
             model.addAttribute("pageTitle", "Edit publication (ID: " + id + ")");
             return "publication_form";
         } catch (UserNotFoundByIdException e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
-            return "redirect:/publications/edit";
+            redirectAttributes.addFlashAttribute(MESSAGE, e.getMessage());
+            return REDIRECT_PUBLICATIONS_EDIT;
         }
     }
 
@@ -67,8 +82,8 @@ public class PublicationController {
         try {
             publicationService.delete(id);
         } catch (UserNotFoundByIdException e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute(MESSAGE, e.getMessage());
         }
-        return "redirect:/publications/edit";
+        return REDIRECT_PUBLICATIONS_EDIT;
     }
 }

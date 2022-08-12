@@ -22,6 +22,13 @@ public class User implements UserDetails {
     private Long id;
     @Column(nullable = false, unique = true, length = 45)
     private String email;
+
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
     @Column(nullable = false, length = 64)
     private String password;
 

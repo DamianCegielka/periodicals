@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "publications")
@@ -30,11 +31,14 @@ public class Publication {
     private Accumulation accumulation;
 
     @Column
-    String Description;
+    @Size(max=1000)
+    String description;
 
-    public Publication(String title, Long price, String topic) {
+    public Publication(String title, Long price, String topic, Accumulation accumulation, String description) {
         this.title = title;
         this.price = price;
         this.topic = topic;
+        this.accumulation=accumulation;
+        this.description=description;
     }
 }

@@ -17,7 +17,7 @@ public interface UserService extends UserDetailsService {
 
     public User get(Long id);
 
-    void updateState(Long id);
+    void reverseState(Long id);
 
     Long getIdUserWhichIsLogin();
 

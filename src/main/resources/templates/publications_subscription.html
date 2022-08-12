@@ -19,7 +19,7 @@
             [[${message2}]]
         </div>
         <nav class="navbar navbar-light bg-light justify-content-between">
-            <form class="form-inline" th:action="@{'/publications/subscription'}">
+            <form class="form-inline" th:action="@{'/publications/subscription/'}">
                 <select name="groupValue" class="form-select" aria-label="Default select example"
                         th:value="${groupValue}">
                     <option value="">Groups to choose</option>
@@ -32,7 +32,7 @@
                 <input class="form-control" type="search" placeholder="Search By Title" aria-label="Search By Title"
                        name="keyword" th:value="${keyword}">
                 <button class="btn btn-secondary my-2 m-2" type="submit"> Search</button>
-                <a href="http://localhost:8080/publications/subscription" class="btn btn-secondary my-2 m-2"
+                <a href="http://localhost:8080/publications/subscription/" class="btn btn-secondary my-2 m-2"
                    type="submit">Clear</a>
             </form>
         </nav>
@@ -47,13 +47,12 @@
                         Title</a></th>
                 <th>
                     <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=price'+ '&sortDir=' + ${reverseSortDir}}">
-                        Price</a></th>
+                        Price $</a></th>
                 <th>
                     <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=topic'+ '&sortDir=' + ${reverseSortDir}}">
                         Topic</a></th>
                 <th>Group</th>
-                <th>Details Information</th>
-
+                <th>Details</th>
                 <th></th>
             </tr>
             </thead>
@@ -65,14 +64,45 @@
                     <td>[[${publication.price}]]</td>
                     <td>[[${publication.topic}]]</td>
                     <td>[[${publication.accumulation.accumulation}]]</td>
-                    <td>[[${publication.description}]]</td>
-                    <!-- <td><a class="btn btn-info m-2 text-center "
-                            th:href="@{'/publications/subscription/details/'+${publication.id}}">DETAILS</a></td>-->
+                    <td>
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary m-1 " data-toggle="modal" th:attr="data-target='#exampleModalLong'+*{publication.id}"
+                        >DETAILS</button>
+
+                        <!-- Modal -->
+                        <div class="modal fade"
+                             th:id="*{'exampleModalLong'+{publication.id}}" tabindex="-1"
+                             role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">[[${publication.title}]]</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        [[${publication.description}]]
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+                        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
                     <td th:if="${idLoginUser}">
-                        <a class="btn btn-success m-2 text-center "
+                        <a class="btn btn-success m-1 "
                            th:href="@{'/publications/subscription/'+${publication.id}}">SUBSCRIBE</a>
-                        <a class="btn btn-danger m-2 text-center "
+                        <a class="btn btn-danger m-1 "
                            th:href="@{'/publications/subscription/delete/'+${publication.id}}">UNSUBSCRIBE</a>
+
                     </td>
                 </tr>
             </th:block>
@@ -103,4 +133,6 @@
 </div>
 <div th:replace="~{footer::footer}"></div>
 </body>
+
+
 </html>

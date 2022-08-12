@@ -3,6 +3,7 @@ package org.cegielka.periodicals.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.cegielka.periodicals.entity.Accumulation;
 
 
 @ToString
@@ -14,4 +15,6 @@ public class PublicationRequest {
     private String title;
     private Long price;
     private String topic;
+    private Accumulation accumulation;
+    String description;
 }

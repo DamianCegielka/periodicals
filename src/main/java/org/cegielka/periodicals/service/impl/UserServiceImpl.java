@@ -7,6 +7,7 @@ import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.repository.UserRepository;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.CalculateFoundsOnAccountUserException;
+import org.cegielka.periodicals.service.exception.LoginException;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.mapper.UserRegistrationRequestMapper;
 import org.cegielka.periodicals.service.validator.PasswordValidator;
@@ -43,11 +44,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String email, String password) {
         User user = userRepository.findUserByEmail(email)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(RuntimeException::new);
         boolean matched = passwordValidator.isMatched(password, user.getPassword());
-
         if (!matched) {
-            throw new RuntimeException();
+            throw new LoginException();
         }
         return user;
     }
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateState(Long id) {
+    public void reverseState(Long id) {
         Optional<User> resultById;
         resultById = userRepository.findById(id);
         if (resultById.isPresent()) {

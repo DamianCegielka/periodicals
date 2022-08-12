@@ -3,7 +3,9 @@ package org.cegielka.periodicals.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.cegielka.periodicals.dto.PublicationRequest;
+import org.cegielka.periodicals.entity.Accumulation;
 import org.cegielka.periodicals.entity.Publication;
+import org.cegielka.periodicals.repository.AccumulationRepository;
 import org.cegielka.periodicals.repository.PublicationRepository;
 import org.cegielka.periodicals.repository.SubscriptionRepository;
 import org.cegielka.periodicals.service.PublicationService;
@@ -27,9 +29,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PublicationServiceImpl implements PublicationService {
     PublicationRepository publicationRepository;
+    AccumulationRepository accumulationRepository;
     SubscriptionRepository subscriptionRepository;
     SubscriptionValidator subscriptionValidator;
     UserService userService;
+
 
     @Override
     public List<Publication> listAll() {
@@ -90,4 +94,8 @@ public class PublicationServiceImpl implements PublicationService {
         }
     }
 
+    @Override
+    public List<Accumulation> getAllAccumulation() {
+        return accumulationRepository.findAll();
+    }
 }

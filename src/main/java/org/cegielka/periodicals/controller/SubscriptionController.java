@@ -24,10 +24,11 @@ import java.util.List;
 @AllArgsConstructor
 public class SubscriptionController {
 
-    private PublicationService publicationService;
-    private UserService userService;
-
-    SubscriptionService subscriptionService;
+    private final PublicationService publicationService;
+    private final UserService userService;
+    private final SubscriptionService subscriptionService;
+    private static final String MESSAGE="message";
+    private static final String MESSAGE2="message2";
 
     @GetMapping("")
     public String showPublicationListToSubscription(Model model,
@@ -72,12 +73,12 @@ public class SubscriptionController {
             subscriptionRequest.setPublicationId(publicationService.get(id));
             subscriptionRequest.setUserId(userService.get(userService.getIdUserWhichIsLogin()));
             if (subscriptionService.deleteSubscription(subscriptionRequest)) {
-                redirectAttributes.addFlashAttribute("message", "The subscription has been deleted successfully.");
+                redirectAttributes.addFlashAttribute(MESSAGE, "The subscription has been deleted successfully.");
             } else {
-                redirectAttributes.addFlashAttribute("message2", "The subscription not deleted.Probably you don't subscribe this position");
+                redirectAttributes.addFlashAttribute(MESSAGE2, "The subscription not deleted. Probably you don't subscribe this position");
             }
         } catch (UserNotFoundByIdException e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute(MESSAGE, e.getMessage());
         }
         return "redirect:/publications/subscription";
     }
@@ -90,14 +91,14 @@ public class SubscriptionController {
             subscriptionRequest.setUserId(userService.get(userService.getIdUserWhichIsLogin()));
             subscriptionRequest.setDate(LocalDateTime.now());
             if (subscriptionService.addSubscription(subscriptionRequest)) {
-                redirectAttributes.addFlashAttribute("message",
+                redirectAttributes.addFlashAttribute(MESSAGE,
                         "The subscription has been added successfully.");
             } else {
-                redirectAttributes.addFlashAttribute("message2",
-                        "The subscription not added.You subscribe this position or your account is not active");
+                redirectAttributes.addFlashAttribute(MESSAGE2,
+                        "The subscription not added. You subscribe this position or your account is not active");
             }
         } catch (UserNotFoundByIdException e) {
-            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            redirectAttributes.addFlashAttribute(MESSAGE, e.getMessage());
         }
         return "redirect:/publications/subscription";
     }

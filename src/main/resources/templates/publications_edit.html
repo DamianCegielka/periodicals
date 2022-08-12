@@ -22,6 +22,8 @@
             <th>Title</th>
             <th>Price</th>
             <th>Topic</th>
+            <th>Group</th>
+            <th>Details</th>
             <th>Settings</th>
         </tr>
         </thead>
@@ -32,11 +34,41 @@
                 <td>[[${publication.title}]]</td>
                 <td>[[${publication.price}]]</td>
                 <td>[[${publication.topic}]]</td>
+                <td>[[${publication.accumulation.accumulation}]]</td>
+                <td><!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary m1" data-toggle="modal" th:attr="data-target='#exampleModalLong'+*{publication.id}"
+                    >DETAILS</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade"
+                         th:id="*{'exampleModalLong'+{publication.id}}" tabindex="-1"
+                         role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">[[${publication.title}]]</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    [[${publication.description}]]
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+                    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script></td>
                 <td>
-                    <a class="btn btn-primary m-2 text-center "
-                       th:href="@{'/publications/edit/'+${publication.id}}">Edit</a>
-                    <a class="btn btn-danger m-2 text-center "
-                       th:href="@{'/publications/delete/' + ${publication.id}}">Delete</a>
+                    <a class="btn btn-primary m-1 "
+                       th:href="@{'/publications/edit/'+${publication.id}}">EDIT</a>
+                    <a class="btn btn-danger m-1 "
+                       th:href="@{'/publications/delete/' + ${publication.id}}">DELETE</a>
                 </td>
             </tr>
         </th:block>

@@ -1,5 +1,6 @@
 package org.cegielka.periodicals.repository;
 
+import org.cegielka.periodicals.entity.Accumulation;
 import org.cegielka.periodicals.entity.Publication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,5 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
 
     @Query("select p from Publication p where p.title like concat('%', ?1, '%') AND p.accumulation.id = ?2")
     Page<Publication> findByTitleContainingAndGroup(String title, Long groupValue, Pageable pageable);
+
 }

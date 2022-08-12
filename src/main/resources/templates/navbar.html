@@ -25,6 +25,7 @@
                     </li>
                 </ul>
                 <form class="d-flex">
+                    <a th:if="${idLoginUser}" class="nav-link active" th:href="@{/users/profile}">Profile</a>
                     <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/login}">Login</a>
                     <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/users/register}">Registration</a>
                     <a th:if="${idLoginUser}" class="nav-link active" th:href="@{/logout}">Logout</a>

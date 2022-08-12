@@ -13,7 +13,7 @@ public class MainController {
     UserService userService;
 
     @GetMapping("")
-    public String HomePage(Model model) {
+    public String homePage(Model model) {
         Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
         String roleForLoginUser = userService.getUserRoleWhichIsLogin();
         model.addAttribute("idLoginUser", numberIdForLoginUser);
