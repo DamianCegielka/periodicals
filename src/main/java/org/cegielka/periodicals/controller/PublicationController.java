@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.cegielka.periodicals.dto.PublicationRequest;
 import org.cegielka.periodicals.entity.Accumulation;
 import org.cegielka.periodicals.entity.Publication;
-import org.cegielka.periodicals.repository.AccumulationRepository;
 import org.cegielka.periodicals.service.PublicationService;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
@@ -27,7 +26,8 @@ public class PublicationController {
     private final UserService userService;
 
     private static final String MESSAGE="MESSAGE";
-    private static final String REDIRECT_PUBLICATIONS_EDIT="redirect:/publications/edit";
+    private static final String REDIRECT_PUBLICATIONS ="redirect:/publications/subscription";
+
 
     @GetMapping("/new")
     public String showNewForm(Model model) {
@@ -44,9 +44,10 @@ public class PublicationController {
         System.out.println(publication.getAccumulation());
         publicationService.register(publication);
         redirectAttributes.addFlashAttribute(MESSAGE, "The publication has been saved successfully.");
-        return REDIRECT_PUBLICATIONS_EDIT;
+        return REDIRECT_PUBLICATIONS;
     }
 
+    /*
     @GetMapping("/edit")
     public String showPublicationListToEdit(Model model) {
         List<Publication> listPublications = publicationService.listAll();
@@ -57,6 +58,7 @@ public class PublicationController {
         model.addAttribute("userRole", roleForLoginUser);
         return "publications_edit";
     }
+     */
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
@@ -73,7 +75,7 @@ public class PublicationController {
             return "publication_form";
         } catch (UserNotFoundByIdException e) {
             redirectAttributes.addFlashAttribute(MESSAGE, e.getMessage());
-            return REDIRECT_PUBLICATIONS_EDIT;
+            return REDIRECT_PUBLICATIONS;
         }
     }
 
@@ -84,6 +86,6 @@ public class PublicationController {
         } catch (UserNotFoundByIdException e) {
             redirectAttributes.addFlashAttribute(MESSAGE, e.getMessage());
         }
-        return REDIRECT_PUBLICATIONS_EDIT;
+        return REDIRECT_PUBLICATIONS;
     }
 }

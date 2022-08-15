@@ -2,14 +2,14 @@
 <html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Publications to subscribe</title>
+    <title>[[#{table.publications.subscription.title}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
 <div th:replace="~{navbar::navbar}"></div>
 <div class="row" style="min-height: 85vh;">
     <li class="container-fluid text-center " style="max-width: 1200px; list-style-type: none;">
-        <div><h2>Publications to subscribe</h2></div>
+        <div><h2>[[#{table.publications.subscription.title}]]</h2></div>
         <div class="m-1">
         </div>
         <div th:if="${message}" class="alert alert-success text-center">
@@ -18,41 +18,44 @@
         <div th:if="${message2}" class="alert alert-danger text-center">
             [[${message2}]]
         </div>
+        <div class="m-1" th:if="${userRole=='ADMIN'}">
+            <a class="btn btn-primary btn-lg" th:href="@{/publications/new}">Add new Periodical</a>
+        </div>
         <nav class="navbar navbar-light bg-light justify-content-between">
             <form class="form-inline" th:action="@{'/publications/subscription/'}">
                 <select name="groupValue" class="form-select" aria-label="Default select example"
                         th:value="${groupValue}">
-                    <option value="">Groups to choose</option>
-                    <option value=1>News</option>
-                    <option value=2>Science</option>
-                    <option value=3>Lifestyle</option>
-                    <option value=4>Sport</option>
-                    <option value=5>Financial</option>
+                    <option value="">[[#{table.publications.select.group}]]</option>
+                    <option value=1>[[#{table.publications.select.news}]]</option>
+                    <option value=2>[[#{table.publications.select.science}]]</option>
+                    <option value=3>[[#{table.publications.select.lifestyle}]]</option>
+                    <option value=4>[[#{table.publications.select.sport}]]</option>
+                    <option value=5>[[#{table.publications.select.financial}]]</option>
                 </select>
-                <input class="form-control" type="search" placeholder="Search By Title" aria-label="Search By Title"
+                <input class="form-control" type="search" th:placeholder="#{table.publications.button.input.search}" aria-label="Search By Title"
                        name="keyword" th:value="${keyword}">
-                <button class="btn btn-secondary my-2 m-2" type="submit"> Search</button>
+                <button class="btn btn-secondary my-2 m-2" type="submit">[[#{table.publications.button.search}]]</button>
                 <a href="http://localhost:8080/publications/subscription/" class="btn btn-secondary my-2 m-2"
-                   type="submit">Clear</a>
+                   type="submit">[[#{table.publications.button.clear}]]</a>
             </form>
         </nav>
         <table class="table table-bordered">
             <thead class="dropdown-menu-dark">
             <tr>
                 <th>
-                    <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=id'+ '&sortDir=' + ${reverseSortDir}}">
-                        ID</a></th>
+                    <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=id' + '&sortDir=' + ${reverseSortDir}}">
+                        [[#{table.publications.id}]]</a></th>
                 <th>
                     <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=title'+ '&sortDir=' + ${reverseSortDir}}">
-                        Title</a></th>
+                        [[#{table.publications.title}]]</a></th>
                 <th>
                     <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=price'+ '&sortDir=' + ${reverseSortDir}}">
-                        Price $</a></th>
+                        [[#{table.publications.price}]]</a></th>
                 <th>
                     <a th:href="@{'/publications/subscription/page/' + ${currentPage} + '?sortField=topic'+ '&sortDir=' + ${reverseSortDir}}">
-                        Topic</a></th>
-                <th>Group</th>
-                <th>Details</th>
+                        [[#{table.publications.topic}]]</a></th>
+                <th>[[#{table.publications.group}]]</th>
+                <th>[[#{table.publications.details}]]</th>
                 <th></th>
             </tr>
             </thead>
@@ -68,7 +71,7 @@
 
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary m-1 " data-toggle="modal" th:attr="data-target='#exampleModalLong'+*{publication.id}"
-                        >DETAILS</button>
+                        >[[#{table.publications.button.details}]]</button>
 
                         <!-- Modal -->
                         <div class="modal fade"
@@ -97,13 +100,19 @@
                         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 
-                    <td th:if="${idLoginUser}">
+                    <td th:if="${userRole=='USER'}">
                         <a class="btn btn-success m-1 "
-                           th:href="@{'/publications/subscription/'+${publication.id}}">SUBSCRIBE</a>
+                           th:href="@{'/publications/subscription/'+${publication.id}}">[[#{table.publications.button.subscribe}]]</a>
                         <a class="btn btn-danger m-1 "
-                           th:href="@{'/publications/subscription/delete/'+${publication.id}}">UNSUBSCRIBE</a>
-
+                           th:href="@{'/publications/subscription/delete/'+${publication.id}}">[[#{table.publications.button.unsubscribe}]]</a>
                     </td>
+                    <td th:if="${userRole=='ADMIN'}">
+                        <a class="btn btn-primary m-1 "
+                           th:href="@{'/publications/edit/'+${publication.id}}">[[#{table.publications.button.edit}]]</a>
+                        <a class="btn btn-danger m-1 "
+                           th:href="@{'/publications/delete/' + ${publication.id}}">[[#{table.publications.button.delete}]]</a>
+                    </td>
+
                 </tr>
             </th:block>
             </tbody>
@@ -115,7 +124,7 @@
                         <a class="page-link"
                            th:if="${currentPage > 1}"
                            th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">Previous</a>
-                        <span class="page-link" th:if="${currentPage == 1}">Previous</span>
+                        <span class="page-link" th:if="${currentPage == 1}">[[#{table.publications.button.previous}]]</span>
                     </li>
                     <li th:each="i: ${#numbers.sequence(1, totalPages)}"
                         th:class="${(currentPage == i) ? 'page-item active' : 'page-item'}">
@@ -125,7 +134,7 @@
                     <li class="page-item">
                         <a class="page-link"
                            th:if="${currentPage < totalPages}"
-                           th:href="@{'/publications/subscription/page/'+${currentPage+1} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">Next</a>
+                           th:href="@{'/publications/subscription/page/'+${currentPage+1} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[#{table.publications.button.next}]]</a>
                     </li>
                 </ul>
             </nav>

@@ -2,37 +2,52 @@
 <html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>[[#{app.name}]]</title>
 </head>
 <body>
 <div class="row">
     <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-info">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">PERIODICALS</a>
+            <a class="navbar-brand" th:href="@{/}">[[#{app.name}]]</a>
             <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/publications/subscription}">Publications</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/publications/subscription}">[[#{menu.publication}]]</a>
                     </li>
-                    <li class="nav-item" th:if="${idLoginUser}">
-                        <a class="nav-link active" th:href="@{/users/subscription}">My Subscription</a>
+                    <li class="nav-item" th:if="${userRole=='USER'}">
+                        <a class="nav-link active" th:href="@{/users/subscription}">[[#{menu.subscription}]]</a>
                     </li>
+                    <!--
                     <li class="nav-item" th:if="${userRole=='ADMIN'}">
-                        <a class="nav-link active" th:href="@{/publications/edit}">Edit Publication</a>
+                        <a class="nav-link active" th:href="@{/publications/edit}">[[#{menu.edit}]]</a>
                     </li>
+                    -->
                     <li class="nav-item" th:if="${userRole=='ADMIN'}">
-                        <a class="nav-link active" th:href="@{/users}">Manage Users</a>
+                        <a class="nav-link active" th:href="@{/users}">[[#{menu.manage}]]</a>
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <a th:if="${idLoginUser}" class="nav-link active" th:href="@{/users/profile}">Profile</a>
-                    <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/login}">Login</a>
-                    <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/users/register}">Registration</a>
-                    <a th:if="${idLoginUser}" class="nav-link active" th:href="@{/logout}">Logout</a>
+                    <a th:if="${idLoginUser}" class="nav-link active"
+                       th:href="@{/users/profile}">[[#{menu.profile}]]</a>
+                    <a th:if="${idLoginUser == undefined}" class="nav-link active"
+                       th:href="@{/login}">[[#{menu.login}]]</a>
+                    <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/users/register}">[[#{menu.registration}]]</a>
+                    <a th:if="${idLoginUser}" class="nav-link active" th:href="@{/logout}">[[#{menu.logout}]]</a>
                 </form>
+                <div class="nav-item">
+                    <a class="nav-link" th:href="@{?lang=en}">
+                        <img th:src="@{/images/en.png}" width="40"/>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" th:href="@{?lang=pl}">
+                        <img th:src="@{/images/pl.png}" width="40"/>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 </div>
 </body>
+
 </html>

@@ -60,6 +60,8 @@ public class SubscriptionController {
             model.addAttribute("listPublications", listPublications);
             model.addAttribute("idLoginUser", numberIdForLoginUser);
             model.addAttribute("userRole", roleForLoginUser);
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("groupValue",groupValue);
         } catch (RuntimeException e) {
             e.printStackTrace();
         }

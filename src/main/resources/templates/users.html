@@ -2,14 +2,14 @@
 <html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Users</title>
+    <title>[[#{table.users.topic}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
 <div th:replace="~{navbar::navbar}"></div>
 <div class="row" style="min-height: 85vh;">
 <div class="container-fluid text-center" style="max-width: 1000px; margin: 0 auto;">
-    <div><h2>Manage Users</h2></div>
+    <div><h2>[[#{table.users.topic}]]</h2></div>
     <div class="m-1">
     </div>
     <div th:if="${message}" class="alert alert-success text-center">
@@ -19,9 +19,9 @@
     <table class="table table-bordered">
         <thead class="dropdown-menu-dark">
         <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Active</th>
+            <th>Id</th>
+            <th>[[#{table.users.email}]]</th>
+            <th>[[#{table.users.active}]]</th>
             <th></th>
         </tr>
         </thead>
@@ -32,9 +32,8 @@
                 <td>[[${user.email}]]</td>
                 <td>[[${user.active}]]</td>
                 <td>
-                    <a class="btn btn-primary m-2 text-center" th:href="@{'/users/edit/'+${user.id}}">Change State</a>
+                    <a class="btn btn-primary m-2 text-center" th:href="@{'/users/edit/'+${user.id}}">[[#{table.user.button.state}]]</a>
                     <!--<a class="h4 " th:href="@{'/users/delete/' + ${user.id}}">Delete</a> -->
-
             </tr>
         </th:block>
         </tbody>

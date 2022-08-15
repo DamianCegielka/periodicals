@@ -2,14 +2,14 @@
 <html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Users</title>
+    <title>[[#{profile.name}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <div class="row" style="">
 <body>
 <div th:replace="~{navbar::navbar}"></div>
 <div class="container-fluid text-center" style="max-width: 1000px;min-height: 85vh; margin: 0 auto;">
-    <div><h2>Manage Users</h2></div>
+    <div><h2>[[#{profile.name}]]</h2></div>
     <div class="m-1">
     </div>
     <div th:if="${message}" class="alert alert-success text-center">
@@ -19,12 +19,11 @@
     <table class="table table-bordered">
         <thead class="dropdown-menu-dark">
         <tr>
-            <th>Email</th>
-            <th>Account</th>
-            <th>Active</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-
+            <th>[[#{profile.email}]]</th>
+            <th>[[#{profile.account}]]</th>
+            <th>[[#{profile.active}]]</th>
+            <th>[[#{profile.name.first}]]</th>
+            <th>[[#{profile.name.last}]]</th>
             <th></th>
         </tr>
         </thead>
