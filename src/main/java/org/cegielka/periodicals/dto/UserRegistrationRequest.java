@@ -4,8 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 
 @ToString
@@ -13,10 +12,14 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class UserRegistrationRequest {
 
-    @NotBlank(message="CANT BE EMPTY!")
+    @Email(message = "Please provide valid Email")
     private String email;
+
     @ToString.Exclude
+    @Size(min=6)
     private String password;
+
     @ToString.Exclude
+    @Size(min=6)
     private String repeatPassword;
 }

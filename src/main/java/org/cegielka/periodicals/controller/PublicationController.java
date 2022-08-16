@@ -42,7 +42,7 @@ public class PublicationController {
     public String saveUser(PublicationRequest publication, RedirectAttributes redirectAttributes) {
         System.out.println(publication);
         System.out.println(publication.getAccumulation());
-        publicationService.register(publication);
+        publicationService.add(publication);
         redirectAttributes.addFlashAttribute(MESSAGE, "The publication has been saved successfully.");
         return REDIRECT_PUBLICATIONS;
     }

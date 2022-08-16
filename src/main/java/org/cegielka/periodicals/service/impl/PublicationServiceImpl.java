@@ -36,13 +36,8 @@ public class PublicationServiceImpl implements PublicationService {
 
 
     @Override
-    public List<Publication> listAll() {
-        return publicationRepository.findAll();
-    }
-
-    @Override
     @Transactional
-    public void register(PublicationRequest request) {
+    public void add(PublicationRequest request) {
         try {
             Publication publication = PublicationRegistrationRequestMapper.map(request);
             publicationRepository.save(publication);

@@ -24,7 +24,7 @@
         <nav class="navbar navbar-light bg-light justify-content-between">
             <form class="form-inline" th:action="@{'/publications/subscription/'}">
                 <select name="groupValue" class="form-select" aria-label="Default select example"
-                        th:value="${groupValue}">
+                        th:value="${groupValue}" >
                     <option value="">[[#{table.publications.select.group}]]</option>
                     <option value=1>[[#{table.publications.select.news}]]</option>
                     <option value=2>[[#{table.publications.select.science}]]</option>

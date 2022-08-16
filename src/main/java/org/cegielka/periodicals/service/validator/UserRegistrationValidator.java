@@ -19,7 +19,6 @@ public class UserRegistrationValidator {
             throw new IllegalPasswordValueException();
         }
 
-
     }
 }
 

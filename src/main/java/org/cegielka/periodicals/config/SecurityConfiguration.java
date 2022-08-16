@@ -20,8 +20,6 @@ public class SecurityConfiguration {
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()

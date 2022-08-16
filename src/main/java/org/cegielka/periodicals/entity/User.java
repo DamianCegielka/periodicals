@@ -32,7 +32,6 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 64)
     private String password;
 
-    private String repeatPassword;
     @Column
     private Boolean active;
     @Column
@@ -45,11 +44,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<Subscription> subscriptions;
 
-    public User(String email, String password, Boolean active) {
+    public User(String email, String password, Boolean active,Role role) {
         this.email = email;
         this.password = password;
         this.active = active;
         this.account = 100;
+        this.role=role;
     }
 
     @Override
