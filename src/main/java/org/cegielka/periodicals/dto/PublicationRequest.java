@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.cegielka.periodicals.entity.Accumulation;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @ToString
 @Data
@@ -12,8 +14,11 @@ import org.cegielka.periodicals.entity.Accumulation;
 public class PublicationRequest {
 
     private Long id;
+    @NotBlank
     private String title;
+    @Min(value = 1, message = "To must be greater than zero")
     private Long price;
+    @NotBlank
     private String topic;
     private Accumulation accumulation;
     String description;

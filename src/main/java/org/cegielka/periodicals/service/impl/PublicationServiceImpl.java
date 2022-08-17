@@ -10,7 +10,7 @@ import org.cegielka.periodicals.repository.PublicationRepository;
 import org.cegielka.periodicals.repository.SubscriptionRepository;
 import org.cegielka.periodicals.service.PublicationService;
 import org.cegielka.periodicals.service.UserService;
-import org.cegielka.periodicals.service.exception.PublicationNotAddEsception;
+import org.cegielka.periodicals.service.exception.PublicationNotAddException;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.mapper.PublicationRegistrationRequestMapper;
 import org.cegielka.periodicals.service.validator.SubscriptionValidator;
@@ -41,7 +41,7 @@ public class PublicationServiceImpl implements PublicationService {
         try {
             Publication publication = PublicationRegistrationRequestMapper.map(request);
             publicationRepository.save(publication);
-        } catch (PublicationNotAddEsception e) {
+        } catch (PublicationNotAddException e) {
             e.printStackTrace();
         }
     }

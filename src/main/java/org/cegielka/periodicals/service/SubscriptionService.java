@@ -10,5 +10,5 @@ public interface SubscriptionService {
 
     boolean deleteSubscription(SubscriptionRequest subscriptionRequest);
 
-    List<Subscription> showSubscriptionsSubscribingByUser(Long Userid);
+    List<Subscription> getSubscriptionForUserId(Long Userid);
 }

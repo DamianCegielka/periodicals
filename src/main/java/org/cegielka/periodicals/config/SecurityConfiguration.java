@@ -28,11 +28,14 @@ public class SecurityConfiguration {
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
+                .loginPage("/login")
                 .usernameParameter("email")
-                .defaultSuccessUrl("/")
-                .permitAll()
+                .passwordParameter("password")
+                .defaultSuccessUrl("/").permitAll()
                 .and()
                 .logout()
+                .permitAll()
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/").permitAll();
         http.authenticationProvider(authenticationProvider());
         return http.build();

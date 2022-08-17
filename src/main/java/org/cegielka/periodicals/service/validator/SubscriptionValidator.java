@@ -31,12 +31,6 @@ public class SubscriptionValidator {
         }
     }
 
-    public Boolean isSubscriptionInDatabase(SubscriptionRequest request) {
-        Optional<Subscription> subscription = subscriptionRepository
-                .findSubscriptionsByPublicationAndUser(request.getPublicationId(), request.getUserId());
-        return subscription.isPresent();
-    }
-
     public boolean isUserHaveFoundsForSubscription(SubscriptionRequest request) {
         return (request.getUserId().getAccount() >= request.getPublicationId().getPrice());
     }

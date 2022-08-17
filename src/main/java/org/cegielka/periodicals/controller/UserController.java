@@ -23,12 +23,12 @@ public class UserController {
 
     private final UserService userService;
     private final SubscriptionService subscriptionService;
-    private static final String MESSAGE="MESSAGE";
-    private static final String ID_LOGIN_USER="idLoginUser";
-    private static final String USER_ROLE="userRole";
+    private static final String MESSAGE = "MESSAGE";
+    private static final String ID_LOGIN_USER = "idLoginUser";
+    private static final String USER_ROLE = "userRole";
 
-    @GetMapping(" ")
-    public String showUserList(Model model) {
+    @GetMapping("")
+    public String getUserList(Model model) {
         List<User> listUsers = userService.listAll();
         Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
         String roleForLoginUser = userService.getUserRoleWhichIsLogin();
@@ -47,15 +47,14 @@ public class UserController {
 
     @PostMapping("/save")
     public String saveUser(@Valid @ModelAttribute("user") UserRegistrationRequest user, RedirectAttributes redirectAttributes) {
-        try{
+        try {
             System.out.println(user);
             userService.register(user);
             redirectAttributes.addFlashAttribute(MESSAGE, "The user has been saved successfully.");
             return "redirect:/users";
 
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("STEFAN MARIUSZA");
         }
         return null;
     }
@@ -78,7 +77,7 @@ public class UserController {
     @GetMapping("/subscription")
     public String getSubscriptionByUser(Model model) {
         List<Subscription> listPublications = subscriptionService
-                .showSubscriptionsSubscribingByUser(userService.getIdUserWhichIsLogin());
+                .getSubscriptionForUserId(userService.getIdUserWhichIsLogin());
         Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
         String roleForLoginUser = userService.getUserRoleWhichIsLogin();
         model.addAttribute(ID_LOGIN_USER, numberIdForLoginUser);
@@ -93,7 +92,7 @@ public class UserController {
             Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
             String roleForLoginUser = userService.getUserRoleWhichIsLogin();
             User user = userService.get(numberIdForLoginUser);
-            List<User> listUsers=new ArrayList<>();
+            List<User> listUsers = new ArrayList<>();
             listUsers.add(user);
             model.addAttribute(ID_LOGIN_USER, numberIdForLoginUser);
             model.addAttribute(USER_ROLE, roleForLoginUser);

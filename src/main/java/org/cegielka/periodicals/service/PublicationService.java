@@ -20,5 +20,6 @@ public interface PublicationService {
     Page<Publication> findPaginatedWithSearching(int pageNo, int pageSize,
                                                  String query, String sortField,
                                                  String sortDirection, Long groupValue);
+
     List<Accumulation> getAllAccumulation();
 }

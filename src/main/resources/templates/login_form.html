@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>[[#{login.title}]]</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div th:replace="~{navbar::navbar}"></div>
+<div class="row" style="min-height: 85vh;">
+<div class="container-fluid text-center">
+  <div>
+    <img class="img-fluid" />
+  </div>
+  <form th:action="@{/login}" method="post" style="max-width: 350px; margin: 0 auto;">
+
+    <div th:if="${param.error}">
+      <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+    </div>
+
+    <div th:if="${param.logout}">
+      <p class="text-warning">You have been logged out.</p>
+    </div>
+
+    <div class="border border-secondary p-3 rounded">
+      <p>[[#{login.title}]]</p>
+      <p>
+        <input type="email" name="email" class="form-control" th:placeholder="#{login.email}" required autofocus/>
+      </p>
+      <p>
+        <input type="password" name="password" class="form-control" th:placeholder="#{login.password}" required />
+      </p>
+      <p>
+        <input type="submit" th:value="#{login.button}" class="btn btn-primary" />
+      </p>
+    </div>
+  </form>
+</div>
+</div>
+<div th:replace="~{footer::footer}"></div>
+</body>
+</html>

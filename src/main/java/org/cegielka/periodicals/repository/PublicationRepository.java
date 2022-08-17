@@ -1,6 +1,5 @@
 package org.cegielka.periodicals.repository;
 
-import org.cegielka.periodicals.entity.Accumulation;
 import org.cegielka.periodicals.entity.Publication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

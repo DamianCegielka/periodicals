@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>[[#{logout.title}]]</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div th:replace="~{navbar::navbar}"></div>
+
+<div class="row" style="min-height: 85vh;">
+    <div class="container-fluid text-center">
+        <h2>[[#{logout.question}]]</h2>
+        <form th:action="@{/logout}" method="post">
+            <button class="btn btn-primary" type="submit" value="Logout"/>
+            [[#{logout.button}]]</button>
+        </form>
+    </div>
+</div>
+<div th:replace="~{footer::footer}"></div>
+</body>
+</html>
+
+=LOGOUT

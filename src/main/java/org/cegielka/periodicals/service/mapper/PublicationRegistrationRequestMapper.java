@@ -1,6 +1,5 @@
 package org.cegielka.periodicals.service.mapper;
 
-
 import org.cegielka.periodicals.dto.PublicationRequest;
 import org.cegielka.periodicals.entity.Publication;
 import org.springframework.stereotype.Component;

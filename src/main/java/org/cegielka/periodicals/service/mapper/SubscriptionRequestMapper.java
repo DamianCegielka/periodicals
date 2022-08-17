@@ -4,7 +4,6 @@ import org.cegielka.periodicals.dto.SubscriptionRequest;
 import org.cegielka.periodicals.entity.Subscription;
 import org.cegielka.periodicals.service.exception.SubscriptionNotAddException;
 import org.springframework.stereotype.Component;
-import java.text.SimpleDateFormat;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 

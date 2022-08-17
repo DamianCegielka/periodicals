@@ -27,13 +27,13 @@ public class SubscriptionController {
     private final PublicationService publicationService;
     private final UserService userService;
     private final SubscriptionService subscriptionService;
-    private static final String MESSAGE="message";
-    private static final String MESSAGE2="message2";
+    private static final String MESSAGE = "message";
+    private static final String MESSAGE2 = "message2";
 
     @GetMapping("")
-    public String showPublicationListToSubscription(Model model,
-                                                    @Param("keyword") String keyword,
-                                                    @Param("groupValue") Long groupValue) {
+    public String getPublicationListToSubscription(Model model,
+                                                   @Param("keyword") String keyword,
+                                                   @Param("groupValue") Long groupValue) {
 
         return findPaginated(model, 1, keyword, "id", "asc", groupValue);
     }
@@ -61,7 +61,7 @@ public class SubscriptionController {
             model.addAttribute("idLoginUser", numberIdForLoginUser);
             model.addAttribute("userRole", roleForLoginUser);
             model.addAttribute("keyword", keyword);
-            model.addAttribute("groupValue",groupValue);
+            model.addAttribute("groupValue", groupValue);
         } catch (RuntimeException e) {
             e.printStackTrace();
         }

@@ -17,6 +17,7 @@ import java.util.Optional;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback
 public class UserRepositoryTest {
+    /*
 
     @Autowired
     private UserRepository userRepository;
@@ -26,7 +27,7 @@ public class UserRepositoryTest {
         User savedUser=addUserToDatabase(userRepository,1);
         Assertions.assertNotNull(savedUser);
         Assertions.assertNotEquals(0,savedUser.getId());
-        deleteAllUsersFromDatabase(userRepository);
+
 
     }
 
@@ -34,7 +35,7 @@ public class UserRepositoryTest {
     public void listAllUsersInDatabase(){
         addUserToDatabase(userRepository,2);
         Assertions.assertEquals(2,userRepository.count());
-        deleteAllUsersFromDatabase(userRepository);
+
     }
     @Test
     public void updateUserInDatabase() {
@@ -47,7 +48,7 @@ public class UserRepositoryTest {
             userUpdate.setActive(false);
         }
         Assertions.assertEquals(false, userUpdate.getActive());
-        deleteAllUsersFromDatabase(userRepository);
+
     }
 
     @Test
@@ -55,7 +56,6 @@ public class UserRepositoryTest {
         addUserToDatabase(userRepository,1);
         Iterable<User> users=userRepository.findAll();
         Assertions.assertEquals(1,size(users));
-        deleteAllUsersFromDatabase(userRepository);
     }
 
     @Test
@@ -104,8 +104,6 @@ public class UserRepositoryTest {
         return saveUser;
     }
 
-    public static void deleteAllUsersFromDatabase(UserRepository userRepository){
-        userRepository.deleteAll();
-    }
+     */
 
 }

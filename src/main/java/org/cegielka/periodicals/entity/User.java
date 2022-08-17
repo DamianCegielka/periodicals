@@ -44,12 +44,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<Subscription> subscriptions;
 
-    public User(String email, String password, Boolean active,Role role) {
+    public User(String email, String password, Boolean active, Role role) {
         this.email = email;
         this.password = password;
         this.active = active;
         this.account = 100;
-        this.role=role;
+        this.role = role;
     }
 
     @Override

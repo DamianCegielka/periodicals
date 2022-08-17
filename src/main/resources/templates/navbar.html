@@ -32,11 +32,17 @@
                     <a th:if="${idLoginUser == undefined}" class="nav-link active"
                        th:href="@{/login}">[[#{menu.login}]]</a>
                     <a th:if="${idLoginUser == undefined}" class="nav-link active" th:href="@{/users/register}">[[#{menu.registration}]]</a>
-                    <a th:if="${idLoginUser}" class="nav-link active" th:href="@{/logout}">[[#{menu.logout}]]</a>
+                    <a th:if="${idLoginUser}" class="nav-link active" th:action="@{/doLogout}" th:href="@{/logout}">[[#{menu.logout}]]</a>
+
                 </form>
                 <div class="nav-item">
                     <a class="nav-link" th:href="@{?lang=en}">
                         <img th:src="@{/images/en.png}" width="40"/>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" th:href="@{?lang=uk}">
+                        <img th:src="@{/images/uk.png}" width="40"/>
                     </a>
                 </div>
                 <div class="nav-item">

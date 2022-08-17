@@ -21,17 +21,15 @@ import java.util.List;
 @RequestMapping("/publications")
 @AllArgsConstructor
 public class PublicationController {
-
     private final PublicationService publicationService;
     private final UserService userService;
-
-    private static final String MESSAGE="MESSAGE";
-    private static final String REDIRECT_PUBLICATIONS ="redirect:/publications/subscription";
+    private static final String MESSAGE = "MESSAGE";
+    private static final String REDIRECT_PUBLICATIONS = "redirect:/publications/subscription";
 
 
     @GetMapping("/new")
-    public String showNewForm(Model model) {
-        List<Accumulation> listAccumulation=publicationService.getAllAccumulation();
+    public String getNewForm(Model model) {
+        List<Accumulation> listAccumulation = publicationService.getAllAccumulation();
         model.addAttribute("listAccumulation", listAccumulation);
         model.addAttribute("publication", new PublicationRequest());
         model.addAttribute("pageTitle", "Add New Publication");
@@ -47,24 +45,11 @@ public class PublicationController {
         return REDIRECT_PUBLICATIONS;
     }
 
-    /*
-    @GetMapping("/edit")
-    public String showPublicationListToEdit(Model model) {
-        List<Publication> listPublications = publicationService.listAll();
-        Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
-        String roleForLoginUser = userService.getUserRoleWhichIsLogin();
-        model.addAttribute("listPublications", listPublications);
-        model.addAttribute("idLoginUser", numberIdForLoginUser);
-        model.addAttribute("userRole", roleForLoginUser);
-        return "publications_edit";
-    }
-     */
-
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String getEditForm(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         try {
             Publication publication = publicationService.get(id);
-            List<Accumulation> listAccumulation=publicationService.getAllAccumulation();
+            List<Accumulation> listAccumulation = publicationService.getAllAccumulation();
             Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
             String roleForLoginUser = userService.getUserRoleWhichIsLogin();
             model.addAttribute("idLoginUser", numberIdForLoginUser);

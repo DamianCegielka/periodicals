@@ -19,7 +19,7 @@
             [[${message2}]]
         </div>
         <div class="m-1" th:if="${userRole=='ADMIN'}">
-            <a class="btn btn-primary btn-lg" th:href="@{/publications/new}">Add new Periodical</a>
+            <a class="btn btn-primary btn-lg" th:href="@{/publications/new}">[[#{table.publications.button.add}]]</a>
         </div>
         <nav class="navbar navbar-light bg-light justify-content-between">
             <form class="form-inline" th:action="@{'/publications/subscription/'}">
@@ -123,7 +123,7 @@
                     <li class="page-item">
                         <a class="page-link"
                            th:if="${currentPage > 1}"
-                           th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">Previous</a>
+                           th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[#{table.publications.button.previous}]]</a>
                         <span class="page-link" th:if="${currentPage == 1}">[[#{table.publications.button.previous}]]</span>
                     </li>
                     <li th:each="i: ${#numbers.sequence(1, totalPages)}"

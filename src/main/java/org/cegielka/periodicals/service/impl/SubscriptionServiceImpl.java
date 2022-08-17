@@ -52,7 +52,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public boolean deleteSubscription(SubscriptionRequest request) {
         Optional<Subscription> subscription = subscriptionRepository.findSubscriptionsByPublicationAndUser
                 (request.getPublicationId(), request.getUserId());
-        if (subscription.isPresent()) {
+        boolean result;
+        if (result = subscription.isPresent()) {
             subscriptionRepository.delete(subscription.get());
             return true;
         } else {
@@ -60,9 +61,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
     }
 
-
     @Override
-    public List<Subscription> showSubscriptionsSubscribingByUser(Long userid) {
+    public List<Subscription> getSubscriptionForUserId(Long userid) {
         return subscriptionRepository.findSubscriptionsByUserId(userid);
     }
 }

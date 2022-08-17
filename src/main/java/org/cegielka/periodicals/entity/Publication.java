@@ -31,14 +31,14 @@ public class Publication {
     private Accumulation accumulation;
 
     @Column
-    @Size(max=1000)
+    @Size(max = 1000)
     String description;
 
     public Publication(String title, Long price, String topic, Accumulation accumulation, String description) {
         this.title = title;
         this.price = price;
         this.topic = topic;
-        this.accumulation=accumulation;
-        this.description=description;
+        this.accumulation = accumulation;
+        this.description = description;
     }
 }
