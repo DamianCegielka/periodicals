@@ -15,10 +15,10 @@ import java.util.Collection;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String role;
+    private String role;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private Collection<User> users;

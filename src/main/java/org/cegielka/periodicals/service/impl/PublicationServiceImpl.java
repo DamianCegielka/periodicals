@@ -2,25 +2,22 @@ package org.cegielka.periodicals.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.cegielka.periodicals.dto.PaginationRequest;
+import org.cegielka.periodicals.dto.PublicationAndGroupResponse;
 import org.cegielka.periodicals.dto.PublicationRequest;
 import org.cegielka.periodicals.entity.Accumulation;
 import org.cegielka.periodicals.entity.Publication;
 import org.cegielka.periodicals.repository.AccumulationRepository;
 import org.cegielka.periodicals.repository.PublicationRepository;
-import org.cegielka.periodicals.repository.SubscriptionRepository;
 import org.cegielka.periodicals.service.PublicationService;
-import org.cegielka.periodicals.service.UserService;
-import org.cegielka.periodicals.service.exception.PublicationNotAddException;
-import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
+import org.cegielka.periodicals.service.exception.*;
 import org.cegielka.periodicals.service.mapper.PublicationRegistrationRequestMapper;
-import org.cegielka.periodicals.service.validator.SubscriptionValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,21 +25,16 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class PublicationServiceImpl implements PublicationService {
-    PublicationRepository publicationRepository;
-    AccumulationRepository accumulationRepository;
-    SubscriptionRepository subscriptionRepository;
-    SubscriptionValidator subscriptionValidator;
-    UserService userService;
-
+    private final PublicationRepository publicationRepository;
+    private final AccumulationRepository accumulationRepository;
 
     @Override
-    @Transactional
     public void add(PublicationRequest request) {
         try {
             Publication publication = PublicationRegistrationRequestMapper.map(request);
             publicationRepository.save(publication);
-        } catch (PublicationNotAddException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new PublicationNotAddException();
         }
     }
 
@@ -59,38 +51,58 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public void delete(Long id) {
-        publicationRepository.deleteById(id);
+        try {
+            publicationRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new PublicationNotDeleteException();
+        }
     }
 
     @Override
     public List<Publication> searchPublicationByTitle(String query) {
         if (query != null) {
-            return publicationRepository.searchAllPublicationByTitle(query);
+            return publicationRepository.searchAllByTitleContaining(query);
         } else {
             return publicationRepository.findAll();
         }
     }
 
     @Override
-    public Page<Publication> findPaginatedWithSearching(int pageNo, int pageSize, String query, String sortField, String sortDirection, Long groupValue) {
-
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
-                ? Sort.by(sortField).ascending()
-                : Sort.by(sortField).descending();
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        if (query != null && groupValue != null) {
-            return publicationRepository.findByTitleContainingAndGroup(query, groupValue, pageable);
-        } else if (groupValue != null) {
-            return publicationRepository.findByGroup(groupValue, pageable);
-        } else if (query != null) {
-            return publicationRepository.findByTitleContaining(query, pageable);
-        } else {
-            return publicationRepository.findAll(pageable);
+    public Page<Publication> findPaginatedWithSearching(PaginationRequest request) {
+        try {
+            Sort sort = request.getSortDirection().equalsIgnoreCase(Sort.Direction.ASC.name())
+                    ? Sort.by(request.getSortField()).ascending()
+                    : Sort.by(request.getSortField()).descending();
+            Pageable pageable = PageRequest.of(request.getPageNo() - 1, request.getPageSize(), sort);
+            if (request.getQuery() != null && request.getGroupValue() != null) {
+                return publicationRepository.findPublicationByTitleContainsAndAccumulation_Id(request.getQuery(), request.getGroupValue(), pageable);
+            } else if (request.getGroupValue() != null) {
+                return publicationRepository.findPublicationByAccumulation_Id(request.getGroupValue(), pageable);
+            } else if (request.getQuery() != null) {
+                return publicationRepository.findPublicationByTitleContains(request.getQuery(), pageable);
+            } else {
+                return publicationRepository.findAll(pageable);
+            }
+        } catch (Exception e) {
+            throw new PaginationNotExecuteException();
         }
     }
 
     @Override
     public List<Accumulation> getAllAccumulation() {
+
         return accumulationRepository.findAll();
+    }
+
+    @Override
+    public PublicationAndGroupResponse getPublicationAndAccumulation(Long idPublication) {
+        try {
+            PublicationAndGroupResponse response = new PublicationAndGroupResponse();
+            response.setPublication(this.get(idPublication));
+            response.setListGroup(this.getAllAccumulation());
+            return response;
+        } catch (Exception e) {
+            throw new PublicationOrGroupNotFoundException();
+        }
     }
 }

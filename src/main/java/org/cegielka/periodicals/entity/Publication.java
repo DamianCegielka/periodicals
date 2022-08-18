@@ -30,9 +30,8 @@ public class Publication {
     @JoinColumn(name = "accumulation_id")
     private Accumulation accumulation;
 
-    @Column
-    @Size(max = 1000)
-    String description;
+    @Column(length = 1000)
+    private String description;
 
     public Publication(String title, Long price, String topic, Accumulation accumulation, String description) {
         this.title = title;

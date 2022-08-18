@@ -1,12 +1,14 @@
 package org.cegielka.periodicals.controller;
 
 import lombok.AllArgsConstructor;
+import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
 import org.cegielka.periodicals.entity.Subscription;
 import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.service.SubscriptionService;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
+import org.cegielka.periodicals.service.exception.UserNotRegisterException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,19 +23,21 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-    private final SubscriptionService subscriptionService;
-    private static final String MESSAGE = "MESSAGE";
+    private static final String SUCCESS_MESSAGE = "success";
+    private static final String ERROR_MESSAGE = "error";
     private static final String ID_LOGIN_USER = "idLoginUser";
     private static final String USER_ROLE = "userRole";
+
+    private final UserService userService;
+    private final SubscriptionService subscriptionService;
+
 
     @GetMapping("")
     public String getUserList(Model model) {
         List<User> listUsers = userService.listAll();
-        Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
-        String roleForLoginUser = userService.getUserRoleWhichIsLogin();
-        model.addAttribute(ID_LOGIN_USER, numberIdForLoginUser);
-        model.addAttribute(USER_ROLE, roleForLoginUser);
+        LoggedUserIdAndRoleResponse loggedUser = userService.getLoggerUser();
+        model.addAttribute(ID_LOGIN_USER, loggedUser.getId());
+        model.addAttribute(USER_ROLE, loggedUser.getRole());
         model.addAttribute("listUsers", listUsers);
         return "users";
     }
@@ -48,13 +52,13 @@ public class UserController {
     @PostMapping("/save")
     public String saveUser(@Valid @ModelAttribute("user") UserRegistrationRequest user, RedirectAttributes redirectAttributes) {
         try {
-            System.out.println(user);
             userService.register(user);
-            redirectAttributes.addFlashAttribute(MESSAGE, "The user has been saved successfully.");
+            redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "The user has been saved successfully.");
             return "redirect:/users";
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (UserNotRegisterException e) {
+            redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, e.getMessage());
+
         }
         return null;
     }
@@ -62,26 +66,24 @@ public class UserController {
     @GetMapping("/edit/{id}")
     public String reverseActiveState(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
         try {
-            Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
-            String roleForLoginUser = userService.getUserRoleWhichIsLogin();
-            model.addAttribute(ID_LOGIN_USER, numberIdForLoginUser);
-            model.addAttribute(USER_ROLE, roleForLoginUser);
+            LoggedUserIdAndRoleResponse loggedUser = userService.getLoggerUser();
+            model.addAttribute(ID_LOGIN_USER, loggedUser.getId());
+            model.addAttribute(USER_ROLE, loggedUser.getRole());
             userService.reverseState(id);
-            redirectAttributes.addFlashAttribute(MESSAGE, "State for id " + id + " has been changed successfully.");
+            redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
+                    "State for id " + id + " has been changed successfully.");
         } catch (UserNotFoundByIdException e) {
-            redirectAttributes.addFlashAttribute(MESSAGE, e.getMessage());
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
         }
         return "redirect:/users";
     }
 
     @GetMapping("/subscription")
     public String getSubscriptionByUser(Model model) {
-        List<Subscription> listPublications = subscriptionService
-                .getSubscriptionForUserId(userService.getIdUserWhichIsLogin());
-        Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
-        String roleForLoginUser = userService.getUserRoleWhichIsLogin();
-        model.addAttribute(ID_LOGIN_USER, numberIdForLoginUser);
-        model.addAttribute(USER_ROLE, roleForLoginUser);
+        LoggedUserIdAndRoleResponse loggedUser = userService.getLoggerUser();
+        List<Subscription> listPublications = subscriptionService.getSubscriptionForUserId(loggedUser.getId());
+        model.addAttribute(ID_LOGIN_USER, loggedUser.getId());
+        model.addAttribute(USER_ROLE, loggedUser.getRole());
         model.addAttribute("listPublications", listPublications);
         return "user_subscription";
     }
@@ -89,17 +91,16 @@ public class UserController {
     @GetMapping("/profile")
     public String getUserProfile(RedirectAttributes redirectAttributes, Model model) {
         try {
-            Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
-            String roleForLoginUser = userService.getUserRoleWhichIsLogin();
-            User user = userService.get(numberIdForLoginUser);
+            User user = userService.get();
             List<User> listUsers = new ArrayList<>();
             listUsers.add(user);
-            model.addAttribute(ID_LOGIN_USER, numberIdForLoginUser);
-            model.addAttribute(USER_ROLE, roleForLoginUser);
+            model.addAttribute(ID_LOGIN_USER, user.getId());
+            model.addAttribute(USER_ROLE, user.getRole());
             model.addAttribute("listUsers", listUsers);
-            redirectAttributes.addFlashAttribute(MESSAGE, "State for Your profile has been changed successfully.");
+            redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
+                    "State for Your profile has been changed successfully.");
         } catch (UserNotFoundByIdException e) {
-            redirectAttributes.addFlashAttribute(MESSAGE, e.getMessage());
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
         }
         return "user_profile";
     }

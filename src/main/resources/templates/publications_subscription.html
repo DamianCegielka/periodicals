@@ -12,11 +12,11 @@
         <div><h2>[[#{table.publications.subscription.title}]]</h2></div>
         <div class="m-1">
         </div>
-        <div th:if="${message}" class="alert alert-success text-center">
-            [[${message}]]
+        <div th:if="${success}" class="alert alert-success text-center">
+            [[${success}]]
         </div>
-        <div th:if="${message2}" class="alert alert-danger text-center">
-            [[${message2}]]
+        <div th:if="${error}" class="alert alert-danger text-center">
+            [[${error}]]
         </div>
         <div class="m-1" th:if="${userRole=='ADMIN'}">
             <a class="btn btn-primary btn-lg" th:href="@{/publications/new}">[[#{table.publications.button.add}]]</a>
@@ -129,7 +129,7 @@
                     <li th:each="i: ${#numbers.sequence(1, totalPages)}"
                         th:class="${(currentPage == i) ? 'page-item active' : 'page-item'}">
                         <a class="page-link"
-                           th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                           th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a> <!--+ '&groupValue=' + ${groupValue}-->
                     </li>
                     <li class="page-item">
                         <a class="page-link"

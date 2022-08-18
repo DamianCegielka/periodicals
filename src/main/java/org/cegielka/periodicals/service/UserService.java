@@ -1,5 +1,6 @@
 package org.cegielka.periodicals.service;
 
+import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
 import org.cegielka.periodicals.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,15 +14,15 @@ public interface UserService extends UserDetailsService {
 
     List<User> listAll();
 
-    void delete(Long id);
-
-    public User get(Long id);
+    public User get();
 
     void reverseState(Long id);
 
-    Long getIdUserWhichIsLogin();
-
-    String getUserRoleWhichIsLogin();
-
     void calculateFoundsOnAccountUser(Long userId, int price);
+
+    LoggedUserIdAndRoleResponse getLoggerUser();
+
+    public String encodePasswordFromRegisterForm(String password);
+
+    public boolean isMatched(String inputPassword, String encodedPassword);
 }

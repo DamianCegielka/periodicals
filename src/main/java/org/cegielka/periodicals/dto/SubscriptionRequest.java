@@ -15,5 +15,5 @@ public class SubscriptionRequest {
 
     private User userId;
     private Publication publicationId;
-    LocalDateTime date;
+    private LocalDateTime date;
 }

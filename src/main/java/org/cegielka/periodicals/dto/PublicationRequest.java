@@ -21,5 +21,5 @@ public class PublicationRequest {
     @NotBlank
     private String topic;
     private Accumulation accumulation;
-    String description;
+    private String description;
 }

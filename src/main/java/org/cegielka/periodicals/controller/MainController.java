@@ -1,6 +1,7 @@
 package org.cegielka.periodicals.controller;
 
 import lombok.AllArgsConstructor;
+import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
 import org.cegielka.periodicals.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +15,9 @@ public class MainController {
 
     @GetMapping("")
     public String homePage(Model model) {
-
-        Long numberIdForLoginUser = userService.getIdUserWhichIsLogin();
-        String roleForLoginUser = userService.getUserRoleWhichIsLogin();
-        model.addAttribute("idLoginUser", numberIdForLoginUser);
-        model.addAttribute("userRole", roleForLoginUser);
+        LoggedUserIdAndRoleResponse loggedUser = userService.getLoggerUser();
+        model.addAttribute("idLoginUser", loggedUser.getId());
+        model.addAttribute("userRole", loggedUser.getRole());
         model.addAttribute("pageTitle", "Welcome to periodicals page");
         return "index";
     }

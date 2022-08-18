@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 @Component
 public class UserRegistrationValidator {
     static public final int MIN_VALID_PASSWORD_LENGTH = 6;
-
     public void validate(UserRegistrationRequest request) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         Pattern pattern = Pattern.compile(regex);

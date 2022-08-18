@@ -2,6 +2,7 @@ package org.cegielka.periodicals.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
 import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.repository.UserRepository;
@@ -9,14 +10,15 @@ import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.CalculateFoundsOnAccountUserException;
 import org.cegielka.periodicals.service.exception.LoginException;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
+import org.cegielka.periodicals.service.exception.UserNotRegisterException;
+import org.cegielka.periodicals.service.mapper.UserLoggedMapper;
 import org.cegielka.periodicals.service.mapper.UserRegistrationRequestMapper;
-import org.cegielka.periodicals.service.validator.PasswordValidator;
 import org.cegielka.periodicals.service.validator.UserRegistrationValidator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,33 +31,34 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private UserRegistrationRequestMapper userRegistrationRequestMapper;
-    private PasswordValidator passwordValidator;
-    private UserRegistrationValidator userRegistrationValidator;
+    private final UserRegistrationRequestMapper userRegistrationRequestMapper;
+    private final UserLoggedMapper userLoggedMapper;
+    private final UserRegistrationValidator userRegistrationValidator;
+    private final BCryptPasswordEncoder encoder;
+
 
     @Override
     @Transactional
     public void register(UserRegistrationRequest request) {
-        userRegistrationValidator.validate(request);
-        String encodePassword = passwordValidator.encodePasswordFromRegisterForm(request.getPassword());
-        User user = userRegistrationRequestMapper.map(request, encodePassword);
-        userRepository.save(user);
+        try {
+            userRegistrationValidator.validate(request);
+            String encodePassword = this.encodePasswordFromRegisterForm(request.getPassword());
+            User user = userRegistrationRequestMapper.map(request, encodePassword);
+            userRepository.save(user);
+        }catch(Exception e){
+            throw new UserNotRegisterException();
+        }
     }
 
     @Override
     public User login(String email, String password) {
         User user = userRepository.findUserByEmail(email)
                 .orElseThrow(RuntimeException::new);
-        boolean matched = passwordValidator.isMatched(password, user.getPassword());
+        boolean matched = this.isMatched(password, user.getPassword());
         if (!matched) {
             throw new LoginException();
         }
         return user;
-    }
-
-    @Override
-    public void delete(Long id) {
-        userRepository.deleteById(id);
     }
 
     @Override
@@ -64,8 +67,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User get(Long id) throws UserNotFoundByIdException {
-        Optional<User> resultById = userRepository.findById(id);
+    public User get() {
+        Optional<User> resultById = userRepository.findById(this.getLoggerUser().getId());
         if (resultById.isPresent()) {
             return resultById.get();
         } else {
@@ -88,19 +91,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long getIdUserWhichIsLogin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() == "anonymousUser") return null;
-        User customUser = (User) authentication.getPrincipal();
-        return customUser.getId();
-    }
-
-    @Override
-    public String getUserRoleWhichIsLogin() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() == "anonymousUser") return null;
-        User customUser = (User) authentication.getPrincipal();
-        return customUser.getRole().getRole();
+    public LoggedUserIdAndRoleResponse getLoggerUser() {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication.getPrincipal() == "anonymousUser")
+                return userLoggedMapper.mapToNotLoggedUser();
+            User customUser = (User) authentication.getPrincipal();
+            return userLoggedMapper.mapToLoggedUser(customUser);
     }
 
     @Override
@@ -109,14 +105,24 @@ public class UserServiceImpl implements UserService {
         try {
             int actualFunds = (userRepository.findById(userId).get().getAccount()) - price;
             userRepository.findById(userId).get().setAccount(actualFunds);
-        } catch (CalculateFoundsOnAccountUserException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new CalculateFoundsOnAccountUserException();
         }
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+
+    public String encodePasswordFromRegisterForm(String password) {
+
+        return encoder.encode(password);
+    }
+
+    public boolean isMatched(String inputPassword, String encodedPassword) {
+        return (encodedPassword.equals(this.encodePasswordFromRegisterForm(inputPassword)));
     }
 }
 

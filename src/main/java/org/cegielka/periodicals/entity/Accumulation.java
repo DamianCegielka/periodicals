@@ -15,15 +15,13 @@ import java.util.Collection;
 public class Accumulation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String accumulation;
+    private String accumulation;
 
-    @OneToMany(mappedBy = "accumulation", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "accumulation")
     private Collection<Publication> publications;
 
-    public Accumulation(String accumulation) {
-        this.accumulation = accumulation;
-    }
+
 }
