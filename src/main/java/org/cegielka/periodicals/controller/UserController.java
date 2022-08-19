@@ -44,9 +44,9 @@ public class UserController {
 
     @GetMapping("/register")
     public String registerNewUser(Model model) {
-        model.addAttribute("user", new UserRegistrationRequest());
-        model.addAttribute("pageTitle", "Register");
-        return "register_form";
+            model.addAttribute("user", new UserRegistrationRequest());
+            model.addAttribute("pageTitle", "Register");
+            return "register_form";
     }
 
     @PostMapping("/save")
@@ -54,13 +54,13 @@ public class UserController {
         try {
             userService.register(user);
             redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "The user has been saved successfully.");
-            return "redirect:/users";
+            return "redirect:/login";
 
-        } catch (UserNotRegisterException e) {
-            redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, e.getMessage());
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
+            return "redirect:/users/register";
 
         }
-        return null;
     }
 
     @GetMapping("/edit/{id}")

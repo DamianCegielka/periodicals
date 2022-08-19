@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class UserLoggedMapper {
 
     public LoggedUserIdAndRoleResponse mapToLoggedUser(User customUser){
-        return new LoggedUserIdAndRoleResponse(customUser.getId(), customUser.getRole().getRole());
+        return new LoggedUserIdAndRoleResponse(customUser.getId(), customUser.getRole().getName());
     }
 
     public LoggedUserIdAndRoleResponse mapToNotLoggedUser(){

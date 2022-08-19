@@ -30,7 +30,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final UserService userService;
     private final PublicationService publicationService;
-
     private final UserRepository userRepository;
 
     @Override

@@ -17,7 +17,7 @@ public class UserRegistrationRequestMapper {
     RoleRepository roleRepository;
 
     public User map(UserRegistrationRequest requestMapper, String encodedPassword) {
-        Optional<Role> role = roleRepository.findRoleByRoleEquals("User");
+        Optional<Role> role = roleRepository.findRoleByNameEquals("User");
         Role roleUser = null;
         if (role.isPresent()) roleUser = role.get();
         else throw new RoleNotFoundException();

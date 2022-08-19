@@ -9,6 +9,12 @@
 <div th:replace="~{navbar::navbar}"></div>
 <div class="container">
     <div class="row" style="min-height: 85vh;">
+        <div th:if="${success}" class="alert alert-success text-center">
+            [[${success}]]
+        </div>
+        <div th:if="${error}" class="alert alert-danger text-center">
+            [[${error}]]
+        </div>
         <div class="col col-12 text-center">
             <h1>[[#{app.title}]]</h1>
             <img th:src="@{/images/periodicals.png}" width="1200"/>

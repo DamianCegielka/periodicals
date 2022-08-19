@@ -2,7 +2,7 @@ package org.cegielka.periodicals.controller;
 
 import lombok.AllArgsConstructor;
 import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
-import org.cegielka.periodicals.dto.PaginationRequest;
+import org.cegielka.periodicals.dto.PaginationResponse;
 import org.cegielka.periodicals.entity.Publication;
 import org.cegielka.periodicals.service.PublicationService;
 import org.cegielka.periodicals.service.SubscriptionService;
@@ -54,7 +54,7 @@ public class SubscriptionController {
         try {
 
             int pageSize = 5;
-            PaginationRequest request = new PaginationRequest();
+            PaginationResponse request = new PaginationResponse();
             request.setPageNo(pageNo);
             request.setPageSize(pageSize);
             request.setSortField(sortField);

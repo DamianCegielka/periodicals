@@ -1,6 +1,6 @@
 package org.cegielka.periodicals.service;
 
-import org.cegielka.periodicals.dto.PaginationRequest;
+import org.cegielka.periodicals.dto.PaginationResponse;
 import org.cegielka.periodicals.dto.PublicationAndGroupResponse;
 import org.cegielka.periodicals.dto.PublicationRequest;
 import org.cegielka.periodicals.entity.Accumulation;
@@ -19,7 +19,7 @@ public interface PublicationService {
 
     List<Publication> searchPublicationByTitle(String query);
 
-    Page<Publication> findPaginatedWithSearching(PaginationRequest paginationRequest);
+    Page<Publication> findPaginatedWithSearching(PaginationResponse paginationResponse);
 
     List<Accumulation> getAllAccumulation();
 

@@ -18,12 +18,12 @@ public class Role {
     private Long id;
 
     @Column
-    private String role;
+    private String name;
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private Collection<User> users;
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String name) {
+        this.name = name;
     }
 }

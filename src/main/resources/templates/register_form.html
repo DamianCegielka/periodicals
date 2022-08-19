@@ -11,6 +11,13 @@
 <div class="container-fluid text-center">
     <div class="text-center"><h2>[[#{register.title}]]</h2></div>
     <form th:action="@{/users/save}" method="post" th:object="${user}" style="max-width: 500px; margin: 0 auto;">
+        <div th:if="${success}" class="alert alert-success text-center">
+            [[${success}]]
+        </div>
+        <div th:if="${error}" class="alert alert-danger text-center">
+            [[${error}]]
+        </div>
+
         <div class="border border-secondary p-3 rounded">
             <div class="form-group row p-1 rounded">
                 <label class="col-sm-4 col-form-label">[[#{register.email}]]</label>

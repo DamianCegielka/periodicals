@@ -6,7 +6,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaginationRequest {
+public class PaginationResponse {
 
     private int pageNo;
     private int pageSize;

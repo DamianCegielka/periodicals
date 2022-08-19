@@ -40,14 +40,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void register(UserRegistrationRequest request) {
-        try {
             userRegistrationValidator.validate(request);
             String encodePassword = this.encodePasswordFromRegisterForm(request.getPassword());
             User user = userRegistrationRequestMapper.map(request, encodePassword);
             userRepository.save(user);
-        }catch(Exception e){
-            throw new UserNotRegisterException();
-        }
     }
 
     @Override

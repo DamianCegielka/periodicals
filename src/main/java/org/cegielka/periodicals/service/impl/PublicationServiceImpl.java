@@ -2,7 +2,7 @@ package org.cegielka.periodicals.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.cegielka.periodicals.dto.PaginationRequest;
+import org.cegielka.periodicals.dto.PaginationResponse;
 import org.cegielka.periodicals.dto.PublicationAndGroupResponse;
 import org.cegielka.periodicals.dto.PublicationRequest;
 import org.cegielka.periodicals.entity.Accumulation;
@@ -68,7 +68,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Page<Publication> findPaginatedWithSearching(PaginationRequest request) {
+    public Page<Publication> findPaginatedWithSearching(PaginationResponse request) {
         try {
             Sort sort = request.getSortDirection().equalsIgnoreCase(Sort.Direction.ASC.name())
                     ? Sort.by(request.getSortField()).ascending()
