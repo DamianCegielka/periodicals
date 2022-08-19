@@ -11,10 +11,10 @@
             <a class="navbar-brand" th:href="@{/}">[[#{app.name}]]</a>
             <div class="collapse navbar-collapse ms-5" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
+                    <li class="nav-link active">
                         <a class="nav-link active" aria-current="page" th:href="@{/publications/subscription}">[[#{menu.publication}]]</a>
                     </li>
-                    <li class="nav-item" th:if="${userRole=='USER'}">
+                    <li class="nav-link active" th:if="${userRole}=='USER'">
                         <a class="nav-link active" th:href="@{/users/subscription}">[[#{menu.subscription}]]</a>
                     </li>
                     <!--
@@ -27,7 +27,7 @@
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <a th:if="${idLoginUser}" class="nav-link active"
+                    <a th:if="${userRole}=='USER'" class="nav-link active"
                        th:href="@{/users/profile}">[[#{menu.profile}]]</a>
                     <a th:if="${idLoginUser == undefined}" class="nav-link active"
                        th:href="@{/login}">[[#{menu.login}]]</a>

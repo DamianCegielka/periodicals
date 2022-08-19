@@ -2,25 +2,25 @@
 <html lang="en" hmlns:th="https://thymeleaf.org" xmlns:hmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>User Subscription</title>
+    <title>[[#{user.title.head}]]</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
 <div th:replace="~{navbar::navbar}"></div>
 <div class="row" style="min-height: 85vh;">
     <li class="container-fluid text-center " style="max-width: 1200px; list-style-type: none;">
-        <div><h2>List of your subscriptions</h2></div>
+        <div><h2>[[#{user.subtitle.head}]]</h2></div>
         <div class="m-1">
         </div>
         <table class="table table-bordered">
             <thead class="dropdown-menu-dark">
             <tr>
-                <th>Subscription date</th>
-                <th>Title</th>
-                <th>Price</th>
-                <th>Topic</th>
-                <th>Group</th>
-                <th>Details Information</th>
+                <th>[[#{user.subscription}]]</th>
+                <th>[[#{user.title}]]</th>
+                <th>[[#{user.price}]]</th>
+                <th>[[#{user.topic}]]</th>
+                <th>[[#{user.group}]]</th>
+                <th>[[#{user.details}]]</th>
 
                 <th></th>
             </tr>
@@ -32,7 +32,7 @@
                     <td>[[${subscription.publication.title}]]</td>
                     <td>[[${subscription.publication.price}]]</td>
                     <td>[[${subscription.publication.topic}]]</td>
-                    <td>[[${subscription.publication.accumulation.accumulation}]]</td>
+                    <td>[[${subscription.publication.accumulation.name}]]</td>
                     <td><!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                 th:attr="data-target='#exampleModalLong'+*{subscription.id}">

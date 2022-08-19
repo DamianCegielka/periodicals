@@ -18,7 +18,7 @@ public class Accumulation {
     private Long id;
 
     @Column
-    private String accumulation;
+    private String name;
 
     @OneToMany(mappedBy = "accumulation")
     private Collection<Publication> publications;

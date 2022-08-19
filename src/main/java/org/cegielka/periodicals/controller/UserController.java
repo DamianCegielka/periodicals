@@ -95,7 +95,7 @@ public class UserController {
             List<User> listUsers = new ArrayList<>();
             listUsers.add(user);
             model.addAttribute(ID_LOGIN_USER, user.getId());
-            model.addAttribute(USER_ROLE, user.getRole());
+            model.addAttribute(USER_ROLE, user.getRole().getName());
             model.addAttribute("listUsers", listUsers);
             redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
                     "State for Your profile has been changed successfully.");

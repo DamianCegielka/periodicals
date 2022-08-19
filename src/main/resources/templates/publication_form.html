@@ -40,7 +40,7 @@
                         <select class="form-control" th:field="*{accumulation}" id="dropDownList" required>
                             <option value="6">select option</option>
                             <option th:each="option : ${listAccumulation}" th:value="${option.id}"
-                                    th:text="${option.accumulation}"></option>
+                                    th:text="${option.name}"></option>
                         </select>
                     </div>
                 </div>
