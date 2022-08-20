@@ -22,7 +22,7 @@
                         <a class="nav-link active" th:href="@{/publications/edit}">[[#{menu.edit}]]</a>
                     </li>
                     -->
-                    <li class="nav-item" th:if="${userRole=='ADMIN'}">
+                    <li class="nav-link active" th:if="${userRole=='ADMIN'}">
                         <a class="nav-link active" th:href="@{/users}">[[#{menu.manage}]]</a>
                     </li>
                 </ul>

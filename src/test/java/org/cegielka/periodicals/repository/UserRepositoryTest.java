@@ -1,8 +1,8 @@
 package org.cegielka.periodicals.repository;
 
 import org.cegielka.periodicals.entity.User;
-import org.cegielka.periodicals.repository.UserRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,10 +19,7 @@ public class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
-    @AfterEach
-    void tearDown(){
-        userRepository.deleteAll();
-    }
+
 
     @Test
     void shouldFindUserByEmail() {

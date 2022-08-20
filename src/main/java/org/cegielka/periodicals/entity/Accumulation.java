@@ -20,7 +20,7 @@ public class Accumulation {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "accumulation")
+    @OneToMany(mappedBy = "accumulation",cascade = CascadeType.ALL)
     private Collection<Publication> publications;
 
 
