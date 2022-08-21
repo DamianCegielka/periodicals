@@ -1,0 +1,34 @@
+INSERT INTO `accumulations` VALUES (1,'News'),
+                                   (2,'Science'),
+                                   (3,'Lifestyle'),
+                                   (4,'Sport'),
+                                   (5,'Financial'),
+                                   (6,'None');
+
+INSERT INTO `roles` VALUES (1,'USER'),
+                           (2,'ADMIN');
+
+INSERT INTO `users` VALUES (3,65,_binary '','damian@damian.com','$2a$10$t1.h92d3OwEisdy/AWoJPu0McXZ1r7Drm5WFqgDk0tdDzGTqgcUru',NULL,2,NULL,NULL),
+                           (4,26,_binary '','cegielka@cegielka.com','$2a$10$Vf/aQ3OUTqG5mLYy81S1GuAsBSRTxAsHa6lcrlYayKhLPfP5gdhxG',NULL,1,NULL,NULL);
+
+INSERT INTO `publications` VALUES
+(87,'The New York Times (NYT) is an American daily newspaper, founded and continuously published in New York City since September 18, 1851. It has won 112 Pulitzer Prizes, more than any other news organization.  It is organized into sections: News, Opinions, Business, Arts, Science, Sports, Style, Home, and Features.',8,'The New York Times','News from the USA',1),
+(88,'The Washington Post is an American daily newspaper published in Washington, D.C. The newspaper gained worldwide fame through its investigation of the Watergate scandal in the 1970s.',4,'The Washington Post','News from the USA',1),
+(89,'British daily newspaper with center-left views, for many years close to the Labour Party, published by Guardian News & Media. One of the largest daily newspapers in the UK.',23,'The Guardian','News from the GB',1),
+(90,'El Mundo is the second largest printed daily newspaper in Spain. Expresses the mainstream views of the centre-right with independent and liberal overtones.',8,'El Mundo','News from Spain',1),
+(91,'Science, also widely referred to as Science Magazine, is the peer-reviewed academic journal of the American Association for the Advancement of Science (AAAS) and one of the world\'s top academic journals. The major focus of the journal is publishing important original scientific research and research reviews, but Science also publishes science-related news, opinions on science policy and other matters of interest to scientists.',3,'Science','Academic journal',2),
+(92,'Nature is a British weekly scientific journal founded and based in London, England. As a multidisciplinary publication, Nature features peer-reviewed research from a variety of academic disciplines, mainly in science and technology. One of the oldest and most prestigious scientific journals.',17,'Nature','Academic journal',2),
+(93,'Focus is a Polish popular science monthly magazine, first published in September 1995. It features stories on health, coaching, space exploration, technology, nature, society and history and produces a number of podcasts ran by the members of the editorial team.',2,'Focus','Science magazine',2),
+(94,'New Scientist is a magazine covering all aspects of science and technology. Covers international news from a scientific standpoint, and ask the big-picture questions about life, the universe and what it means to be human.',22,'New Scientist','Science magazine',2),
+(95,'An American exclusive fashion magazine that has been around since 1920. Magazine of the greatest designers of haute couture fashion presented by the world\'s most famous models, in photo shoots taken by outstanding photographers. Vogue also features articles on art, literature, music and travel as well as portraits of famous people. There is also information on innovative beauty and makeup products.',25,'Vogue','Fashion magazine',3),
+(96,'Men\'s Health is the world\'s largest men\'s magazine brand. the magazine currently covers various men\'s lifestyle topics such as fitness, nutrition, fashion and sexuality.',3,'Men\'s Health','Lifestyle magazine for men',3),
+(97,'An American magazine that specializes in celebrity news and human-interest stories. The New York-based magazine is one of the best-selling weeklies in the world',10,'People','Magazine about celebrities',3),
+(98,'Vanity Fair is a monthly magazine of popular culture, fashion, and current affairs published by Condé Nast in the United States. The magazine has earned a reputation for lively writing, in-depth reporting, and insightful social commentary.',8,'Vanity Fair','Magazine about popular culture',3),
+(99,'Monthly sports magazine, founded in 1954 and was developed by Henry Luce, the creator of Time magazine. It is the leading sports magazine in the United States. It was the first magazine with circulation over one million to win the National Magazine Award for General Excellence twice.',6,'Sports Illustrated','Sports magazine',4),
+(100,'Kicker is Germany\'s leading sports magazine focused primarily on football. Kicker annualy awards the Kicker Torjägerkanone prize for the Bundesliga\'s top scorer.',10,'Kicker','Germany\'s sports magazine',4),
+(101,'Runner\'s World is a globally circulated monthly magazine for runners of all skills sets, published by Hearst in Easton, Pennsylvania, in the United States. Provides Running news, training advice, inspiring stories, running shoe reviews, gear tips, and more.',5,'Runner\'s World','Magazine for runners',4),
+(102,'Sport Bild is a German weekly sports magazine published in Hamburg, Germany. The magazine covers news about all types of sport, but its major focus is on football.',18,'Sport Bild','German sports magazine',4),
+(103,'The Wall Street Journal is an American business-focused, international daily newspaper based in New York City. The paper\'s primary focus is business and economy but also covers other areas of news.',10,'The Wall Street Journal','Business-focused newspaper',5),
+(104,'British daily newspaper that focuses on business and economic current affairs. The magazine\'s profile is moderately conservative. The editors support the free market and globalization, and are sympathetic to the European Union.',29,'Financial Times','British business newspaper',5),
+(105,'Forbes is an American business magazine owned by Integrated Whale Media Investments and the Forbes family. Published eight times a year, it features articles on finance, industry, investing, and marketing topics. Forbes also reports on related subjects such as technology, communications, science, politics, and law. It is based in Jersey City, New Jersey.',7,'Forbes','American business magazine',5),
+(106,'The Economist is a British weekly newspaper that focuses on current affairs, international business, politics, technology, and culture. Based in London, the newspaper is owned by The Economist Group, with core editorial offices in the United States, as well as across major cities in continental Europe, Asia, and the Middle East.',15,'The Economist','British business newspaper',5);
