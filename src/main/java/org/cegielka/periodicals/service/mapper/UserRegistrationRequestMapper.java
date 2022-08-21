@@ -20,7 +20,12 @@ public class UserRegistrationRequestMapper {
         Optional<Role> role = roleRepository.findRoleByNameEquals("User");
         Role roleUser = null;
         if (role.isPresent()) roleUser = role.get();
-        else throw new RoleNotFoundException();
-        return new User(requestMapper.getEmail(), encodedPassword, true, roleUser);
+        else if (!role.isPresent()) {
+            roleUser = new Role("User");
+            roleRepository.save(roleUser);
+        } else throw new RoleNotFoundException();
+        User result=new User(requestMapper.getEmail(), encodedPassword, true, roleUser);
+        System.out.println("JESTEM W MAPERZE"+result.getEmail()+result.getPassword());
+        return result;
     }
 }

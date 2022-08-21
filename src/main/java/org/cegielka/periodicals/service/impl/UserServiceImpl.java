@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
 import org.cegielka.periodicals.entity.User;
+import org.cegielka.periodicals.repository.RoleRepository;
 import org.cegielka.periodicals.repository.UserRepository;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.CalculateFoundsOnAccountUserException;
@@ -35,15 +36,16 @@ public class UserServiceImpl implements UserService {
     private final UserLoggedMapper userLoggedMapper;
     private final UserRegistrationValidator userRegistrationValidator;
     private final BCryptPasswordEncoder encoder;
-
+    private final RoleRepository roleRepository;
 
     @Override
-    @Transactional
-    public void register(UserRegistrationRequest request) {
-            userRegistrationValidator.validate(request);
-            String encodePassword = this.encodePasswordFromRegisterForm(request.getPassword());
-            User user = userRegistrationRequestMapper.map(request, encodePassword);
-            userRepository.save(user);
+    public User register(UserRegistrationRequest request) {
+        userRegistrationValidator.validate(request);
+        String encodePassword = this.encodePasswordFromRegisterForm(request.getPassword());
+        User user = userRegistrationRequestMapper.map(request, encodePassword);
+        System.out.println("przed zapisem; "+user.getEmail()+" "+user.getPassword()+" "+ user.getRole().getName()+" "+user.getActive());
+        User result=userRepository.save(user);
+        return result;
     }
 
     @Override
@@ -88,11 +90,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoggedUserIdAndRoleResponse getLoggerUser() {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication.getPrincipal() == "anonymousUser")
-                return userLoggedMapper.mapToNotLoggedUser();
-            User customUser = (User) authentication.getPrincipal();
-            return userLoggedMapper.mapToLoggedUser(customUser);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal() == "anonymousUser")
+            return userLoggedMapper.mapToNotLoggedUser();
+        User customUser = (User) authentication.getPrincipal();
+        return userLoggedMapper.mapToLoggedUser(customUser);
     }
 
     @Override
@@ -113,7 +115,6 @@ public class UserServiceImpl implements UserService {
 
 
     public String encodePasswordFromRegisterForm(String password) {
-
         return encoder.encode(password);
     }
 

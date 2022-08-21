@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 public interface UserService extends UserDetailsService {
-    void register(UserRegistrationRequest user);
+    User register(UserRegistrationRequest user);
 
     User login(String email, String password);
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PublicationService {
 
-    void add(PublicationRequest request);
+    Publication add(PublicationRequest request);
 
     Publication get(Long id);
 

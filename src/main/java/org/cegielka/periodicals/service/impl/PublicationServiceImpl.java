@@ -29,10 +29,11 @@ public class PublicationServiceImpl implements PublicationService {
     private final AccumulationRepository accumulationRepository;
 
     @Override
-    public void add(PublicationRequest request) {
+    public Publication add(PublicationRequest request) {
         try {
             Publication publication = PublicationRegistrationRequestMapper.map(request);
-            publicationRepository.save(publication);
+            Publication result =publicationRepository.save(publication);
+            return result;
         } catch (Exception e) {
             throw new PublicationNotAddException();
         }
