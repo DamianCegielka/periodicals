@@ -10,7 +10,7 @@ public interface SubscriptionService {
 
     boolean deleteSubscriptionByCurrentUser(Long idPublication);
 
-    List<Subscription> getSubscriptionForUserId(Long Userid);
+    List<Subscription> getSubscriptionForUserId(Long userId);
 
     Boolean isInDatabase(SubscriptionRequest request);
 

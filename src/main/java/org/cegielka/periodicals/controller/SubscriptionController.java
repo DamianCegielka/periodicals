@@ -60,6 +60,7 @@ public class SubscriptionController {
             request.setSortField(sortField);
             request.setSortDirection(sortDir);
             request.setGroupValue(groupValue);
+            request.setQuery(keyword);
 
             Page<Publication> page = publicationService.findPaginatedWithSearching(request);
             LoggedUserIdAndRoleResponse loggedUser = userService.getLoggerUser();

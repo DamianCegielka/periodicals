@@ -8,7 +8,6 @@ import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.service.SubscriptionService;
 import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
-import org.cegielka.periodicals.service.exception.UserNotRegisterException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,9 +43,9 @@ public class UserController {
 
     @GetMapping("/register")
     public String registerNewUser(Model model) {
-            model.addAttribute("user", new UserRegistrationRequest());
-            model.addAttribute("pageTitle", "Register");
-            return "register_form";
+        model.addAttribute("user", new UserRegistrationRequest());
+        model.addAttribute("pageTitle", "Register");
+        return "register_form";
     }
 
     @PostMapping("/save")

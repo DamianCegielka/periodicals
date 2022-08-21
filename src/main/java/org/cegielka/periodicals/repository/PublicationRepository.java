@@ -15,8 +15,8 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
 
     Page<Publication> findPublicationByTitleContains(String title, Pageable pageable);
 
-    Page<Publication> findPublicationByAccumulation_Id(Long groupValue, Pageable pageable);
+    Page<Publication> findPublicationByAccumulationId(Long groupValue, Pageable pageable);
 
-    Page<Publication> findPublicationByTitleContainsAndAccumulation_Id(String title, Long groupValue, Pageable pageable);
+    Page<Publication> findPublicationByTitleContainsAndAccumulationId(String title, Long groupValue, Pageable pageable);
 
 }

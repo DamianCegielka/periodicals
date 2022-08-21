@@ -11,7 +11,6 @@ import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.CalculateFoundsOnAccountUserException;
 import org.cegielka.periodicals.service.exception.LoginException;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
-import org.cegielka.periodicals.service.exception.UserNotRegisterException;
 import org.cegielka.periodicals.service.mapper.UserLoggedMapper;
 import org.cegielka.periodicals.service.mapper.UserRegistrationRequestMapper;
 import org.cegielka.periodicals.service.validator.UserRegistrationValidator;
@@ -43,9 +42,7 @@ public class UserServiceImpl implements UserService {
         userRegistrationValidator.validate(request);
         String encodePassword = this.encodePasswordFromRegisterForm(request.getPassword());
         User user = userRegistrationRequestMapper.map(request, encodePassword);
-        System.out.println("przed zapisem; "+user.getEmail()+" "+user.getPassword()+" "+ user.getRole().getName()+" "+user.getActive());
-        User result=userRepository.save(user);
-        return result;
+        return userRepository.save(user);
     }
 
     @Override
@@ -100,13 +97,18 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void calculateFoundsOnAccountUser(Long userId, int price) {
-        try {
-            int actualFunds = (userRepository.findById(userId).get().getAccount()) - price;
-            userRepository.findById(userId).get().setAccount(actualFunds);
-        } catch (Exception e) {
-            throw new CalculateFoundsOnAccountUserException();
+
+            Optional<User> user=userRepository.findById(userId);
+            if(user.isPresent()) {
+                try {
+                    int actualFunds = (user.get().getAccount()) - price;
+                    user.get().setAccount(actualFunds);
+                }
+                catch (Exception e) {
+                    throw new CalculateFoundsOnAccountUserException();
+                }
+            }
         }
-    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PublicationRegistrationRequestMapper {
 
+    private PublicationRegistrationRequestMapper() {
+    }
     public static Publication map(PublicationRequest request) {
 
         Publication publication = new Publication();
@@ -18,4 +20,6 @@ public class PublicationRegistrationRequestMapper {
         publication.setDescription(request.getDescription());
         return publication;
     }
+
+
 }

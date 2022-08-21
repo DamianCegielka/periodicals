@@ -32,8 +32,7 @@ public class PublicationServiceImpl implements PublicationService {
     public Publication add(PublicationRequest request) {
         try {
             Publication publication = PublicationRegistrationRequestMapper.map(request);
-            Publication result =publicationRepository.save(publication);
-            return result;
+            return publicationRepository.save(publication);
         } catch (Exception e) {
             throw new PublicationNotAddException();
         }
@@ -76,9 +75,9 @@ public class PublicationServiceImpl implements PublicationService {
                     : Sort.by(request.getSortField()).descending();
             Pageable pageable = PageRequest.of(request.getPageNo() - 1, request.getPageSize(), sort);
             if (request.getQuery() != null && request.getGroupValue() != null) {
-                return publicationRepository.findPublicationByTitleContainsAndAccumulation_Id(request.getQuery(), request.getGroupValue(), pageable);
+                return publicationRepository.findPublicationByTitleContainsAndAccumulationId(request.getQuery(), request.getGroupValue(), pageable);
             } else if (request.getGroupValue() != null) {
-                return publicationRepository.findPublicationByAccumulation_Id(request.getGroupValue(), pageable);
+                return publicationRepository.findPublicationByAccumulationId(request.getGroupValue(), pageable);
             } else if (request.getQuery() != null) {
                 return publicationRepository.findPublicationByTitleContains(request.getQuery(), pageable);
             } else {

@@ -41,9 +41,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             subscriptionRequest.setUserId(userService.get());
             subscriptionRequest.setDate(LocalDateTime.now());
             Subscription subscription = SubscriptionRequestMapper.map(subscriptionRequest);
-            if (this.isInDatabase(subscriptionRequest)
-                    || (!this.isActiveUser(subscription))
-                    || (!this.isUserHaveFoundsForSubscription(subscriptionRequest))) {
+            if (Boolean.TRUE.equals(this.isInDatabase(subscriptionRequest))
+                    || (Boolean.FALSE.equals(this.isActiveUser(subscription)))
+                    || (Boolean.FALSE.equals(this.isUserHaveFoundsForSubscription(subscriptionRequest)))) {
                 return false;
             } else {
                 userService.calculateFoundsOnAccountUser(subscriptionRequest.getUserId().getId(),
@@ -70,8 +70,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             } else {
                 return false;
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             throw new SubscriptionNotDeleteException();
         }
     }
@@ -97,6 +96,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             return false;
         }
     }
+
     @Override
     public boolean isUserHaveFoundsForSubscription(SubscriptionRequest request) {
         return (request.getUserId().getAccount() >= request.getPublicationId().getPrice());

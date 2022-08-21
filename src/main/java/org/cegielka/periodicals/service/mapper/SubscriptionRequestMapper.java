@@ -10,6 +10,9 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @Component
 public class SubscriptionRequestMapper {
 
+    private SubscriptionRequestMapper() {
+    }
+
     public static Subscription map(SubscriptionRequest request) {
         try {
             return new Subscription(request.getUserId(), request.getPublicationId(), request.getDate().truncatedTo(DAYS));
@@ -17,4 +20,5 @@ public class SubscriptionRequestMapper {
             throw new SubscriptionNotAddException();
         }
     }
+
 }

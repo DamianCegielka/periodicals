@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 @Component
 public class UserRegistrationValidator {
-    static public final int MIN_VALID_PASSWORD_LENGTH = 6;
+     private static final int MIN_VALID_PASSWORD_LENGTH = 6;
 
     public void validate(UserRegistrationRequest request) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
@@ -23,11 +23,11 @@ public class UserRegistrationValidator {
         String password = request.getPassword();
         String repeatPassword = request.getRepeatPassword();
 
-        if (!password.equals(repeatPassword)) {
-            throw new PasswordsAreNotSameException();
-        }
         if (password == null || password.length() < MIN_VALID_PASSWORD_LENGTH) {
             throw new IllegalPasswordValueException();
+        }
+        else if (!password.equals(repeatPassword)) {
+            throw new PasswordsAreNotSameException();
         }
     }
 }
