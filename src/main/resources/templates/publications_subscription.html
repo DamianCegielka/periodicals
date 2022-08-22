@@ -123,18 +123,24 @@
                     <li class="page-item">
                         <a class="page-link"
                            th:if="${currentPage > 1}"
-                           th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[#{table.publications.button.previous}]]</a>
+                           th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}+
+                          '&groupValue=' + ${(groupValue!=null) ? groupValue : ''}+
+                          '&keyword=' + ${(keyword!=null) ? keyword : ''}}">[[#{table.publications.button.previous}]]</a>
                         <span class="page-link" th:if="${currentPage == 1}">[[#{table.publications.button.previous}]]</span>
                     </li>
                     <li th:each="i: ${#numbers.sequence(1, totalPages)}"
                         th:class="${(currentPage == i) ? 'page-item active' : 'page-item'}">
                         <a class="page-link"
-                           th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[${i}]]</a> <!--+ '&groupValue=' + ${groupValue}-->
+                          th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}+
+                          '&groupValue=' + ${(groupValue!=null) ? groupValue : ''}+
+                          '&keyword=' + ${(keyword!=null) ? keyword : ''}}">[[${i}]]</a>
                     </li>
                     <li class="page-item">
                         <a class="page-link"
                            th:if="${currentPage < totalPages}"
-                           th:href="@{'/publications/subscription/page/'+${currentPage+1} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}}">[[#{table.publications.button.next}]]</a>
+                           th:href="@{'/publications/subscription/page/'+${currentPage+1} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}+
+                          '&groupValue=' + ${(groupValue!=null) ? groupValue : ''}+
+                          '&keyword=' + ${(keyword!=null) ? keyword : ''}}">[[#{table.publications.button.next}]]</a>
                     </li>
                 </ul>
             </nav>
