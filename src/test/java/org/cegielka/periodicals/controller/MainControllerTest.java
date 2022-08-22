@@ -14,34 +14,34 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MainControllerTest {
+class MainControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void statusOkForHomePage() throws Exception {
+    void statusOkForHomePage() throws Exception {
         mockMvc.perform(get("/"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void statusOkForLoginPage() throws Exception {
+    void statusOkForLoginPage() throws Exception {
         mockMvc.perform(get("/login"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void statusOkForLogoutPage() throws Exception {
+    void statusOkForLogoutPage() throws Exception {
         mockMvc.perform(get("/logout"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void notLoginUserWhenUseInvalidEmail() throws Exception {
+    void notLoginUserWhenUseInvalidEmail() throws Exception {
 
         this.mockMvc.perform(post("/login").param("@cegielka", "cegielka789"))
                 .andDo(print())
@@ -49,7 +49,7 @@ public class MainControllerTest {
     }
 
     @Test
-    public void notLoginUserWhenUseInvalidpassword() throws Exception {
+    void notLoginUserWhenUseInvalidpassword() throws Exception {
 
         this.mockMvc.perform(post("/login").param("cegielka@cegielka", "cegielka765"))
                 .andDo(print())
@@ -57,7 +57,7 @@ public class MainControllerTest {
     }
 
     @Test
-    public void foundStatusWhenUserPutProperData() throws Exception {
+    void foundStatusWhenUserPutProperData() throws Exception {
         this.mockMvc.perform(formLogin().user("damian@damian").password("damian456"))
                 .andDo(print())
                 .andExpect(status().isFound());

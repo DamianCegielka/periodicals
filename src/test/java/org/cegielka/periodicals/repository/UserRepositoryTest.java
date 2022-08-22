@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback
-public class UserRepositoryTest {
+class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -22,7 +22,7 @@ public class UserRepositoryTest {
     @Test
     void shouldFindUserByEmail() {
 
-        String email = "damian@damian.com";
+        String email = "damian1@damian.com";
         String password = "periodicals";
         User user = new User();
                 user.setEmail(email);

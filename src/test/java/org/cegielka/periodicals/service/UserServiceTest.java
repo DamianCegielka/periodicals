@@ -76,7 +76,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void shouldRegisterUser() {
+    void shouldRegisterUser() {
 
         UserRegistrationRequest request = new UserRegistrationRequest();
         request.setEmail("create21@test.com");
@@ -91,7 +91,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void shouldNotRegisterUserByWrongEmail() {
+    void shouldNotRegisterUserByWrongEmail() {
         UserRegistrationRequest request = new UserRegistrationRequest();
         request.setEmail("create@");
         request.setPassword("testTest");
@@ -100,7 +100,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void shouldNotRegisterUserByDifferentPasswords() {
+    void shouldNotRegisterUserByDifferentPasswords() {
         UserRegistrationRequest request = new UserRegistrationRequest();
         request.setEmail("create2@test.com");
         request.setPassword("testTest1");
@@ -109,7 +109,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void shouldFindAllUser() {
+    void shouldFindAllUser() {
         UserRegistrationRequest request = new UserRegistrationRequest();
         request.setEmail("create31@test.com");
         request.setPassword("testTest");

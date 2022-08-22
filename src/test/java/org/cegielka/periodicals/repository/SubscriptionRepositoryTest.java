@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback
-public class SubscriptionRepositoryTest {
+class SubscriptionRepositoryTest {
 
     Long idUserSubscriptionToTest;
 
@@ -51,7 +51,7 @@ public class SubscriptionRepositoryTest {
         publication.setDescription(description);
         publicationRepository.save(publication);
 
-        String email = "damian@damian.com";
+        String email = "damian@damian.test";
         String password = "periodicals";
         User user = new User();
         user.setEmail(email);

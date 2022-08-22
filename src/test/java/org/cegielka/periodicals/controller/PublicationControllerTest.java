@@ -12,13 +12,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PublicationControllerTest {
+class PublicationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void statusOkFormNewFormPublication()throws Exception{
+    void statusOkFormNewFormPublication()throws Exception{
         mockMvc.perform(get("/publications/new"))
                 .andDo(print())
                 .andExpect(status().isOk());

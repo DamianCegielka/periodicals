@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback
-public class PublicationRepositoryTest {
+ class PublicationRepositoryTest {
 
 
     @Autowired
@@ -46,7 +46,7 @@ public class PublicationRepositoryTest {
         publication.setDescription(description);
         publicationRepositoryTest.save(publication);
         List<Publication> expected = publicationRepositoryTest.searchAllByTitleContaining("TestName");
-        assertEquals(expected.stream().anyMatch(obj->obj.getTitle()=="TestName"),true);
+        assertEquals(true,expected.stream().anyMatch(obj->obj.getTitle()=="TestName"));
 
     }
 

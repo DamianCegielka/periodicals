@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -27,14 +27,14 @@ public class UserControllerTest {
 
 
     @Test
-    public void status302WhenTryGetAccessToUserListByNoLoginAdmin() throws Exception {
+    void status302WhenTryGetAccessToUserListByNoLoginAdmin() throws Exception {
         this.mockMvc.perform(get("/users"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
     }
 
     @Test
-    public void status302WhenTryGetAccessToSubscriptionListByNoLoginUser() throws Exception {
+    void status302WhenTryGetAccessToSubscriptionListByNoLoginUser() throws Exception {
         this.mockMvc.perform(get("/users/subscription"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
@@ -42,8 +42,8 @@ public class UserControllerTest {
 
 
     @Test
-    public void allUsersWhenAdminIsLogIn() throws Exception {
-        User adminUser = userRepository.findUserByEmail("damian@damian").get();
+    void allUsersWhenAdminIsLogIn() throws Exception {
+        User adminUser = userRepository.findUserByEmail("damian@damian.com").get();
         var user = userService.loadUserByUsername(adminUser.getUsername());
         this.mockMvc.perform(get("/users")
                         .with(SecurityMockMvcRequestPostProcessors.user(user)))
@@ -55,8 +55,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void allSubscriptionsForUserWhenLogIn() throws Exception {
-        User adminUser = userRepository.findUserByEmail("cegielka@cegielka").get();
+    void allSubscriptionsForUserWhenLogIn() throws Exception {
+        User adminUser = userRepository.findUserByEmail("cegielka@cegielka.com").get();
         var user = userService.loadUserByUsername(adminUser.getUsername());
         this.mockMvc.perform(get("/users/subscription")
                         .with(SecurityMockMvcRequestPostProcessors.user(user)))
@@ -68,8 +68,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void personalProfileWhenUserIsLogIn() throws Exception {
-        User adminUser = userRepository.findUserByEmail("cegielka@cegielka").get();
+    void personalProfileWhenUserIsLogIn() throws Exception {
+        User adminUser = userRepository.findUserByEmail("cegielka@cegielka.com").get();
         var user = userService.loadUserByUsername(adminUser.getUsername());
         this.mockMvc.perform(get("/users//profile")
                         .with(SecurityMockMvcRequestPostProcessors.user(user)))

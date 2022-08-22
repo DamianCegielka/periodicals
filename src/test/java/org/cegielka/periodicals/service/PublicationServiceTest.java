@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-public class PublicationServiceTest {
+class PublicationServiceTest {
     @Mock
     private PublicationRepository publicationRepository;
     @Mock
@@ -37,7 +37,7 @@ public class PublicationServiceTest {
     }
 
     @Test
-    public void shouldAddPublication() {
+    void shouldAddPublication() {
 
         PublicationRequest request = new PublicationRequest();
         request.setTitle("Example Title");

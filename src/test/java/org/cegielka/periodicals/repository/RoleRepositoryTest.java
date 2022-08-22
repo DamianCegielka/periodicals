@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback
-public class RoleRepositoryTest {
+class RoleRepositoryTest {
 
     @Autowired
     private RoleRepository roleRepositoryTest;
