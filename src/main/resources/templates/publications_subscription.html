@@ -24,7 +24,7 @@
         <nav class="navbar navbar-light bg-light justify-content-between">
             <form class="form-inline" th:action="@{'/publications/subscription/'}">
                 <select name="groupValue" class="form-select" aria-label="Default select example"
-                        th:value="${groupValue}" >
+                        th:value="${groupValue}">
                     <option value="">[[#{table.publications.select.group}]]</option>
                     <option value=1>[[#{table.publications.select.news}]]</option>
                     <option value=2>[[#{table.publications.select.science}]]</option>
@@ -32,9 +32,11 @@
                     <option value=4>[[#{table.publications.select.sport}]]</option>
                     <option value=5>[[#{table.publications.select.financial}]]</option>
                 </select>
-                <input class="form-control" type="search" th:placeholder="#{table.publications.button.input.search}" aria-label="Search By Title"
+                <input class="form-control" type="search" th:placeholder="#{table.publications.button.input.search}"
+                       aria-label="Search By Title"
                        name="keyword" th:value="${keyword}">
-                <button class="btn btn-secondary my-2 m-2" type="submit">[[#{table.publications.button.search}]]</button>
+                <button class="btn btn-secondary my-2 m-2" type="submit">[[#{table.publications.button.search}]]
+                </button>
                 <a href="http://localhost:8080/publications/subscription/" class="btn btn-secondary my-2 m-2"
                    type="submit">[[#{table.publications.button.clear}]]</a>
             </form>
@@ -70,8 +72,10 @@
                     <td>
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary m-1 " data-toggle="modal" th:attr="data-target='#exampleModalLong'+*{publication.id}"
-                        >[[#{table.publications.button.details}]]</button>
+                        <button type="button" class="btn btn-primary m-1 " data-toggle="modal"
+                                th:attr="data-target='#exampleModalLong'+*{publication.id}"
+                        >[[#{table.publications.button.details}]]
+                        </button>
 
                         <!-- Modal -->
                         <div class="modal fade"
@@ -89,7 +93,8 @@
                                         [[${publication.description}]]
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -102,15 +107,20 @@
 
                     <td th:if="${userRole=='USER'}">
                         <a class="btn btn-success m-1 "
-                           th:href="@{'/publications/subscription/'+${publication.id}}">[[#{table.publications.button.subscribe}]]</a>
+                           th:href="@{'/publications/subscription/'+${publication.id}}"
+                        >[[#{table.publications.button.subscribe}]]</a>
                         <a class="btn btn-danger m-1 "
-                           th:href="@{'/publications/subscription/delete/'+${publication.id}}">[[#{table.publications.button.unsubscribe}]]</a>
+                           th:href="@{'/publications/subscription/delete/'+${publication.id}}"
+                        >[[#{table.publications.button.unsubscribe}]]</a>
                     </td>
-                    <td th:if="${userRole=='ADMIN'}">
+                    <td th:if="${userRole=='ADMIN'}" class="d-flex justify-content-evenly">
                         <a class="btn btn-primary m-1 "
                            th:href="@{'/publications/edit/'+${publication.id}}">[[#{table.publications.button.edit}]]</a>
-                        <a class="btn btn-danger m-1 "
-                           th:href="@{'/publications/delete/' + ${publication.id}}">[[#{table.publications.button.delete}]]</a>
+                        <form th:method="delete"
+                              th:action="@{'/publications/delete/' + ${publication.id}}">
+                            <input type="submit" class="btn btn-danger m-1 "
+                                   th:value=#{table.publications.button.delete} />
+                        </form>
                     </td>
 
                 </tr>
@@ -126,12 +136,13 @@
                            th:href="@{'/publications/subscription/page/' + ${currentPage -1}+ '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}+
                           '&groupValue=' + ${(groupValue!=null) ? groupValue : ''}+
                           '&keyword=' + ${(keyword!=null) ? keyword : ''}}">[[#{table.publications.button.previous}]]</a>
-                        <span class="page-link" th:if="${currentPage == 1}">[[#{table.publications.button.previous}]]</span>
+                        <span class="page-link"
+                              th:if="${currentPage == 1}">[[#{table.publications.button.previous}]]</span>
                     </li>
                     <li th:each="i: ${#numbers.sequence(1, totalPages)}"
                         th:class="${(currentPage == i) ? 'page-item active' : 'page-item'}">
                         <a class="page-link"
-                          th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}+
+                           th:href="@{'/publications/subscription/page/' + ${i} + '?sortField='+${sortField}+ '&sortDir=' + ${sortDir}+
                           '&groupValue=' + ${(groupValue!=null) ? groupValue : ''}+
                           '&keyword=' + ${(keyword!=null) ? keyword : ''}}">[[${i}]]</a>
                     </li>

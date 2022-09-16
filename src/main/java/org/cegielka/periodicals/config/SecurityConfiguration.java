@@ -16,14 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfiguration {
-
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/users/subscription").authenticated()
+                .antMatchers("/users/subscription", "/users/profile/edit", "/users/profile").authenticated()
                 .antMatchers("/publications/edit", "/users").hasAuthority("ADMIN")
                 .anyRequest().permitAll()
                 .and()

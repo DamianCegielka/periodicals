@@ -20,11 +20,11 @@ public class Accumulation {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "accumulation",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "accumulation", cascade = CascadeType.ALL)
     private Collection<Publication> publications;
 
-    public Accumulation(String name){
-        this.name=name;
+    public Accumulation(String name) {
+        this.name = name;
     }
 
 }

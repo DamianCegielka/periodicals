@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
+import org.cegielka.periodicals.dto.UserResponse;
 import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.repository.RoleRepository;
 import org.cegielka.periodicals.repository.UserRepository;
@@ -13,6 +14,7 @@ import org.cegielka.periodicals.service.exception.LoginException;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.cegielka.periodicals.service.mapper.UserLoggedMapper;
 import org.cegielka.periodicals.service.mapper.UserRegistrationRequestMapper;
+import org.cegielka.periodicals.service.mapper.UserToResponseUserMapper;
 import org.cegielka.periodicals.service.validator.UserRegistrationValidator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserRegistrationRequestMapper userRegistrationRequestMapper;
+    private final UserToResponseUserMapper userToResponseUserMapper;
     private final UserLoggedMapper userLoggedMapper;
     private final UserRegistrationValidator userRegistrationValidator;
     private final BCryptPasswordEncoder encoder;
@@ -40,7 +43,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(UserRegistrationRequest request) {
         userRegistrationValidator.validate(request);
-        String encodePassword = this.encodePasswordFromRegisterForm(request.getPassword());
+        String encodePassword = null;
+        if (request.getPassword() != null) {
+            encodePassword = this.encodePasswordFromRegisterForm(request.getPassword());
+        }
         User user = userRegistrationRequestMapper.map(request, encodePassword);
         return userRepository.save(user);
     }
@@ -72,6 +78,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserResponse getUserDataToEdit() {
+        User user = this.get();
+        return userToResponseUserMapper.mapUserToUserResponse(user);
+    }
+
+    @Override
     public void reverseState(Long id) {
         Optional<User> resultById;
         resultById = userRepository.findById(id);
@@ -98,17 +110,16 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void calculateFoundsOnAccountUser(Long userId, int price) {
 
-            Optional<User> user=userRepository.findById(userId);
-            if(user.isPresent()) {
-                try {
-                    int actualFunds = (user.get().getAccount()) - price;
-                    user.get().setAccount(actualFunds);
-                }
-                catch (Exception e) {
-                    throw new CalculateFoundsOnAccountUserException();
-                }
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            try {
+                int actualFunds = (user.get().getAccount()) - price;
+                user.get().setAccount(actualFunds);
+            } catch (Exception e) {
+                throw new CalculateFoundsOnAccountUserException();
             }
         }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

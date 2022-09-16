@@ -3,6 +3,7 @@ package org.cegielka.periodicals.service.impl;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.cegielka.periodicals.dto.SubscriptionRequest;
+import org.cegielka.periodicals.dto.SubscriptionResponse;
 import org.cegielka.periodicals.entity.Subscription;
 import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.repository.PublicationRepository;
@@ -14,6 +15,7 @@ import org.cegielka.periodicals.service.UserService;
 import org.cegielka.periodicals.service.exception.SubscriptionNotAddException;
 import org.cegielka.periodicals.service.exception.SubscriptionNotDeleteException;
 import org.cegielka.periodicals.service.mapper.SubscriptionRequestMapper;
+import org.cegielka.periodicals.service.mapper.SubscriptionToSubscriptionResponse;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,6 +33,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final UserService userService;
     private final PublicationService publicationService;
     private final UserRepository userRepository;
+    private final SubscriptionToSubscriptionResponse subscriptionToSubscriptionResponse;
 
     @Override
     @Transactional
@@ -76,8 +79,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public List<Subscription> getSubscriptionForUserId(Long userid) {
-        return subscriptionRepository.findSubscriptionsByUserId(userid);
+    public List<SubscriptionResponse> getSubscriptionForUserId(Long userid) {
+
+        List<Subscription> subscriptionList = subscriptionRepository.findSubscriptionsByUserId(userid);
+        return subscriptionToSubscriptionResponse.map(subscriptionList);
     }
 
     @Override

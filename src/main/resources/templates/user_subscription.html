@@ -12,6 +12,12 @@
         <div><h2>[[#{user.subtitle.head}]]</h2></div>
         <div class="m-1">
         </div>
+        <div th:if="${success}" class="alert alert-success text-center">
+            [[${success}]]
+        </div>
+        <div th:if="${error}" class="alert alert-danger text-center">
+            [[${error}]]
+        </div>
         <table class="table table-bordered">
             <thead class="dropdown-menu-dark">
             <tr>
@@ -21,7 +27,6 @@
                 <th>[[#{user.topic}]]</th>
                 <th>[[#{user.group}]]</th>
                 <th>[[#{user.details}]]</th>
-
                 <th></th>
             </tr>
             </thead>
@@ -36,9 +41,8 @@
                     <td><!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                 th:attr="data-target='#exampleModalLong'+*{subscription.id}">
-                            DETAILS
+                            [[#{user.details.button}]]
                         </button>
-
                         <!-- Modal -->
                         <div class="modal fade"
                              th:id="*{'exampleModalLong'+{subscription.id}}" tabindex="-1"
@@ -67,6 +71,8 @@
                         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
                         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
                     </td>
+                    <td><a class="btn btn-danger m-1 "
+                           th:href="@{'/publications/subscription/list/delete/'+${subscription.publication.id}}">[[#{table.publications.button.unsubscribe}]]</a></td>
                 </tr>
             </th:block>
             </tbody>

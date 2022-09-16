@@ -11,23 +11,27 @@ import java.util.regex.Pattern;
 
 @Component
 public class UserRegistrationValidator {
-     private static final int MIN_VALID_PASSWORD_LENGTH = 6;
+    private static final int MIN_VALID_PASSWORD_LENGTH = 8;
 
     public void validate(UserRegistrationRequest request) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        Pattern pattern = Pattern.compile(regex);
+        String regexEmail = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(regexEmail);
         Matcher matcher = pattern.matcher(request.getEmail());
         if (!matcher.matches()) {
             throw new IllegalEmailValueException();
         }
-        String password = request.getPassword();
-        String repeatPassword = request.getRepeatPassword();
+        if (request.getId() == null) {
+            String password = request.getPassword();
+            String repeatPassword = request.getRepeatPassword();
+            String regexPassword = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+            Pattern patternPassword = Pattern.compile(regexPassword);
+            Matcher matcherPassword = patternPassword.matcher(request.getPassword());
 
-        if (password == null || password.length() < MIN_VALID_PASSWORD_LENGTH) {
-            throw new IllegalPasswordValueException();
-        }
-        else if (!password.equals(repeatPassword)) {
-            throw new PasswordsAreNotSameException();
+            if (!matcherPassword.matches() || password == null || password.length() < MIN_VALID_PASSWORD_LENGTH) {
+                throw new IllegalPasswordValueException();
+            } else if (!password.equals(repeatPassword)) {
+                throw new PasswordsAreNotSameException();
+            }
         }
     }
 }

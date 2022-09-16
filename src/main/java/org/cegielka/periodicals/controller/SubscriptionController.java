@@ -81,6 +81,23 @@ public class SubscriptionController {
         return "publications_subscription";
     }
 
+    @GetMapping("/{id}")
+    public String subscribe(@PathVariable("id") Long idPublication,
+                            RedirectAttributes redirectAttributes) {
+        try {
+            if (subscriptionService.addSubscriptionByCurrentUser(idPublication)) {
+                redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
+                        "The subscription has been added successfully.");
+            } else {
+                redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
+                        "You subscribe this position or your account is not active");
+            }
+        } catch (SubscriptionNotAddException e) {
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
+        }
+        return "redirect:/publications/subscription";
+    }
+
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long idPublication, RedirectAttributes redirectAttributes) {
         try {
@@ -97,21 +114,22 @@ public class SubscriptionController {
         return "redirect:/publications/subscription";
     }
 
-    @GetMapping("/{id}")
-    public String subscribe(@PathVariable("id") Long idPublication, RedirectAttributes redirectAttributes) {
+    @GetMapping("list/delete/{id}")
+    public String deleteFromList(@PathVariable("id") Long idPublication, RedirectAttributes redirectAttributes) {
         try {
-            if (subscriptionService.addSubscriptionByCurrentUser(idPublication)) {
+            if (subscriptionService.deleteSubscriptionByCurrentUser(idPublication)) {
                 redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE,
-                        "The subscription has been added successfully.");
+                        "The subscription has been deleted successfully.");
             } else {
                 redirectAttributes.addFlashAttribute(ERROR_MESSAGE,
-                        "You subscribe this position or your account is not active");
+                        "The subscription not deleted. Probably you don't subscribe this position");
             }
-        } catch (SubscriptionNotAddException e) {
+        } catch (SubscriptionNotDeleteException e) {
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
         }
-        return "redirect:/publications/subscription";
+        return "redirect:/users/subscription";
     }
+
 
     @GetMapping("/subscription/search")
     public List<Publication> searchPublication(@Param("keyword") String keyword) {

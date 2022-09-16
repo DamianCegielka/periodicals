@@ -9,6 +9,7 @@ import org.cegielka.periodicals.service.exception.PasswordsAreNotSameException;
 import org.cegielka.periodicals.service.impl.UserServiceImpl;
 import org.cegielka.periodicals.service.mapper.UserLoggedMapper;
 import org.cegielka.periodicals.service.mapper.UserRegistrationRequestMapper;
+import org.cegielka.periodicals.service.mapper.UserToResponseUserMapper;
 import org.cegielka.periodicals.service.validator.UserRegistrationValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ class UserServiceTest {
     private UserRepository userRepository;
     @InjectMocks
     private UserRegistrationRequestMapper userRegistrationRequestMapper;
+
+    @Mock
+    private UserToResponseUserMapper userToResponseUserMapper;
     @Mock
     private RoleRepository roleRepository;
     @Mock
@@ -53,6 +57,7 @@ class UserServiceTest {
     void setUp() {
         underTest = new UserServiceImpl(userRepository,
                 userRegistrationRequestMapper,
+                userToResponseUserMapper,
                 userLoggedMapper,
                 userRegistrationValidator,
                 passwordEncoder,
@@ -80,8 +85,8 @@ class UserServiceTest {
 
         UserRegistrationRequest request = new UserRegistrationRequest();
         request.setEmail("create21@test.com");
-        request.setPassword("testTest");
-        request.setRepeatPassword("testTest");
+        request.setPassword("testTest1!");
+        request.setRepeatPassword("testTest1!");
         when(userRepository.save(Mockito.any(User.class)))
                 .thenAnswer(i -> i.getArguments()[0]);
         User user = underTest.register(request);
@@ -94,8 +99,8 @@ class UserServiceTest {
     void shouldNotRegisterUserByWrongEmail() {
         UserRegistrationRequest request = new UserRegistrationRequest();
         request.setEmail("create@");
-        request.setPassword("testTest");
-        request.setRepeatPassword("testTest");
+        request.setPassword("testTest1!");
+        request.setRepeatPassword("testTest1!");
         assertThrows(IllegalEmailValueException.class, () -> underTest.register(request));
     }
 
@@ -103,8 +108,8 @@ class UserServiceTest {
     void shouldNotRegisterUserByDifferentPasswords() {
         UserRegistrationRequest request = new UserRegistrationRequest();
         request.setEmail("create2@test.com");
-        request.setPassword("testTest1");
-        request.setRepeatPassword("testTest2");
+        request.setPassword("testTest1!");
+        request.setRepeatPassword("testTest2!");
         assertThrows(PasswordsAreNotSameException.class, () -> underTest.register(request));
     }
 
@@ -112,8 +117,8 @@ class UserServiceTest {
     void shouldFindAllUser() {
         UserRegistrationRequest request = new UserRegistrationRequest();
         request.setEmail("create31@test.com");
-        request.setPassword("testTest");
-        request.setRepeatPassword("testTest");
+        request.setPassword("testTest7!)");
+        request.setRepeatPassword("testTest7!)");
         when(userRepository.save(Mockito.any(User.class)))
                 .thenAnswer(i -> i.getArguments()[0]);
         User user = underTest.register(request);

@@ -2,6 +2,7 @@ package org.cegielka.periodicals.service;
 
 import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
+import org.cegielka.periodicals.dto.UserResponse;
 import org.cegielka.periodicals.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -14,7 +15,9 @@ public interface UserService extends UserDetailsService {
 
     List<User> listAll();
 
-    public User get();
+    User get();
+
+    UserResponse getUserDataToEdit();
 
     void reverseState(Long id);
 
@@ -22,7 +25,7 @@ public interface UserService extends UserDetailsService {
 
     LoggedUserIdAndRoleResponse getLoggerUser();
 
-    public String encodePasswordFromRegisterForm(String password);
+    String encodePasswordFromRegisterForm(String password);
 
-    public boolean isMatched(String inputPassword, String encodedPassword);
+    boolean isMatched(String inputPassword, String encodedPassword);
 }

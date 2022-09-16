@@ -2,11 +2,13 @@ package org.cegielka.periodicals.controller;
 
 import lombok.AllArgsConstructor;
 import org.cegielka.periodicals.dto.LoggedUserIdAndRoleResponse;
+import org.cegielka.periodicals.dto.SubscriptionResponse;
 import org.cegielka.periodicals.dto.UserRegistrationRequest;
-import org.cegielka.periodicals.entity.Subscription;
+import org.cegielka.periodicals.dto.UserResponse;
 import org.cegielka.periodicals.entity.User;
 import org.cegielka.periodicals.service.SubscriptionService;
 import org.cegielka.periodicals.service.UserService;
+import org.cegielka.periodicals.service.exception.PublicationOrGroupNotFoundException;
 import org.cegielka.periodicals.service.exception.UserNotFoundByIdException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ public class UserController {
     private static final String ERROR_MESSAGE = "error";
     private static final String ID_LOGIN_USER = "idLoginUser";
     private static final String USER_ROLE = "userRole";
+    private static final String REDIRECT_PUBLICATIONS = "redirect:/users/profile";
 
     private final UserService userService;
     private final SubscriptionService subscriptionService;
@@ -58,8 +61,19 @@ public class UserController {
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
             return "redirect:/users/register";
-
         }
+    }
+
+    @PostMapping("/update")
+    public String updateUser(@Valid @ModelAttribute("user") UserRegistrationRequest user, RedirectAttributes redirectAttributes) {
+        try {
+            userService.register(user);
+            redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "The user has been saved successfully.");
+
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
+        }
+        return REDIRECT_PUBLICATIONS;
     }
 
     @GetMapping("/edit/{id}")
@@ -80,7 +94,7 @@ public class UserController {
     @GetMapping("/subscription")
     public String getSubscriptionByUser(Model model) {
         LoggedUserIdAndRoleResponse loggedUser = userService.getLoggerUser();
-        List<Subscription> listPublications = subscriptionService.getSubscriptionForUserId(loggedUser.getId());
+        List<SubscriptionResponse> listPublications = subscriptionService.getSubscriptionForUserId(loggedUser.getId());
         model.addAttribute(ID_LOGIN_USER, loggedUser.getId());
         model.addAttribute(USER_ROLE, loggedUser.getRole());
         model.addAttribute("listPublications", listPublications);
@@ -102,5 +116,21 @@ public class UserController {
             redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
         }
         return "user_profile";
+    }
+
+    @GetMapping("/profile/edit")
+    public String getEditForm(Model model, RedirectAttributes redirectAttributes) {
+        try {
+            UserResponse user = userService.getUserDataToEdit();
+            model.addAttribute("user", user);
+            LoggedUserIdAndRoleResponse loggerUser = userService.getLoggerUser();
+            model.addAttribute(ID_LOGIN_USER, loggerUser.getId());
+            model.addAttribute(USER_ROLE, loggerUser.getRole());
+            model.addAttribute("pageTitle", "Edit publication (ID: " + loggerUser.getId() + ")");
+            return "user_form";
+        } catch (PublicationOrGroupNotFoundException e) {
+            redirectAttributes.addFlashAttribute(ERROR_MESSAGE, e.getMessage());
+            return REDIRECT_PUBLICATIONS;
+        }
     }
 }

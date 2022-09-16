@@ -20,5 +20,4 @@ public class SubscriptionRequestMapper {
             throw new SubscriptionNotAddException();
         }
     }
-
 }
