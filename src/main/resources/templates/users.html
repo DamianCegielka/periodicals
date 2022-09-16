@@ -32,8 +32,14 @@
                 <td>[[${user.email}]]</td>
                 <td>[[${user.active}]]</td>
                 <td>
+                    <form th:method="put"
+                          th:action="@{'/users/edit/'+${user.id}}">
+                        <input type="submit" class="btn btn-primary m-2 text-center"
+                               th:value=#{table.user.button.state} />
+                    </form>
+                    <!--
                     <a class="btn btn-primary m-2 text-center" th:href="@{'/users/edit/'+${user.id}}">[[#{table.user.button.state}]]</a>
-                    <!--<a class="h4 " th:href="@{'/users/delete/' + ${user.id}}">Delete</a> -->
+                    <a class="h4 " th:href="@{'/users/delete/' + ${user.id}}">Delete</a> -->
             </tr>
         </th:block>
         </tbody>

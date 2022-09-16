@@ -71,8 +71,13 @@
                         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
                         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
                     </td>
-                    <td><a class="btn btn-danger m-1 "
-                           th:href="@{'/publications/subscription/list/delete/'+${subscription.publication.id}}">[[#{table.publications.button.unsubscribe}]]</a></td>
+                    <td>
+                        <form th:method="delete"
+                              th:action="@{'/publications/subscription/list/delete/'+${subscription.publication.id}}">
+                            <input type="submit" class="btn btn-danger m-1 "
+                                   th:value=#{table.publications.button.unsubscribe} />
+                        </form>
+                    </td>
                 </tr>
             </th:block>
             </tbody>

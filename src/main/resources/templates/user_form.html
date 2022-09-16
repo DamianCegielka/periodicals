@@ -11,7 +11,7 @@
     <div class="container-fluid text-center">
         <div class="text-center"><h2>[[#{update.register.title}]]</h2></div>
 
-        <form th:action="@{/users/update}" method="post" th:object="${user}" style="max-width: 500px; margin: 0 auto;">
+        <form th:action="@{/users/update}" th:method="put" th:object="${user}" style="max-width: 500px; margin: 0 auto;">
 
             <div th:if="${success}" class="alert alert-success text-center">
                 [[${success}]]

@@ -105,13 +105,17 @@
                         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 
-                    <td th:if="${userRole=='USER'}">
-                        <a class="btn btn-success m-1 "
-                           th:href="@{'/publications/subscription/'+${publication.id}}"
-                        >[[#{table.publications.button.subscribe}]]</a>
-                        <a class="btn btn-danger m-1 "
-                           th:href="@{'/publications/subscription/delete/'+${publication.id}}"
-                        >[[#{table.publications.button.unsubscribe}]]</a>
+                    <td th:if="${userRole=='USER'}" class="d-flex justify-content-evenly">
+                    <form th:method="post"
+                          th:action="@{'/publications/subscription/'+${publication.id}}">
+                        <input type="submit" class="btn btn-success m-1"
+                               th:value=#{table.publications.button.subscribe} />
+                    </form>
+                    <form th:method="delete"
+                          th:action="@{'/publications/subscription/delete/'+${publication.id}}">
+                        <input type="submit" class="btn btn-danger m-1 "
+                               th:value=#{table.publications.button.unsubscribe} />
+                    </form>
                     </td>
                     <td th:if="${userRole=='ADMIN'}" class="d-flex justify-content-evenly">
                         <a class="btn btn-primary m-1 "

@@ -64,7 +64,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public String updateUser(@Valid @ModelAttribute("user") UserRegistrationRequest user, RedirectAttributes redirectAttributes) {
         try {
             userService.register(user);
@@ -76,7 +76,7 @@ public class UserController {
         return REDIRECT_PUBLICATIONS;
     }
 
-    @GetMapping("/edit/{id}")
+    @PutMapping("/edit/{id}")
     public String reverseActiveState(@PathVariable("id") Long id, RedirectAttributes redirectAttributes, Model model) {
         try {
             LoggedUserIdAndRoleResponse loggedUser = userService.getLoggerUser();

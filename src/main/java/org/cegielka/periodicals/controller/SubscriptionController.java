@@ -14,9 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -81,7 +79,7 @@ public class SubscriptionController {
         return "publications_subscription";
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/{id}")
     public String subscribe(@PathVariable("id") Long idPublication,
                             RedirectAttributes redirectAttributes) {
         try {
@@ -98,7 +96,7 @@ public class SubscriptionController {
         return "redirect:/publications/subscription";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long idPublication, RedirectAttributes redirectAttributes) {
         try {
             if (subscriptionService.deleteSubscriptionByCurrentUser(idPublication)) {
@@ -114,7 +112,7 @@ public class SubscriptionController {
         return "redirect:/publications/subscription";
     }
 
-    @GetMapping("list/delete/{id}")
+    @DeleteMapping("list/delete/{id}")
     public String deleteFromList(@PathVariable("id") Long idPublication, RedirectAttributes redirectAttributes) {
         try {
             if (subscriptionService.deleteSubscriptionByCurrentUser(idPublication)) {
