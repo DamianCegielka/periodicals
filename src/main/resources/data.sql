@@ -8,8 +8,8 @@ INSERT INTO `accumulations` VALUES (1,'News'),
 INSERT INTO `roles` VALUES (1,'USER'),
                            (2,'ADMIN');
 
-INSERT INTO `users` VALUES (3,65,_binary '','damian@damian.com','$2a$10$t1.h92d3OwEisdy/AWoJPu0McXZ1r7Drm5WFqgDk0tdDzGTqgcUru',NULL,2,NULL,NULL),
-                           (4,26,_binary '','cegielka@cegielka.com','$2a$10$Vf/aQ3OUTqG5mLYy81S1GuAsBSRTxAsHa6lcrlYayKhLPfP5gdhxG',NULL,1,NULL,NULL);
+INSERT INTO `users` VALUES (3,65,_binary '','damian@damian.com','$2a$10$ckz7SYNIdJnkxgGrZ87bgeeTirRNMvlVYOPqNBRUR9GjjBTD7mIXu',NULL,2,NULL,NULL),
+                           (4,26,_binary '','cegielka@cegielka.com','$2a$10$ax4Ksv6zcVaq5n86P2eNHOQIdBin/MtrBPfT2F8rgRsCfPhWxECyW',NULL,1,NULL,NULL);
 
 INSERT INTO `publications` VALUES
 (87,'The New York Times (NYT) is an American daily newspaper, founded and continuously published in New York City since September 18, 1851. It has won 112 Pulitzer Prizes, more than any other news organization.  It is organized into sections: News, Opinions, Business, Arts, Science, Sports, Style, Home, and Features.',8,'The New York Times','News from the USA',1),
